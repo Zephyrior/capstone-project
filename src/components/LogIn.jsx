@@ -22,7 +22,7 @@ const Login = () => {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
       const response = await api.post(`${apiUrl}${endpoint}`, isLogin ? { email, password } : { email, password, firstName, lastName, birthDate });
       localStorage.setItem("token", response.data.token);
-      isLogin ? setToken(response.data.token) : localStorage.removeItem("token");
+      setToken(response.data.token);
       navigate("/home");
     } catch (error) {
       alert(error.response?.data?.message || "Errore");
