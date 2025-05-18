@@ -1,7 +1,16 @@
+import { Container } from "react-bootstrap";
+import UserInfo from "./UserInfo";
+import PostsPage from "./PostsPage";
+import WidgetsPage from "./WidgetsPage";
+
 const Home = () => {
   return (
     <>
-      <h1>Siamo nell'Home page</h1>
+      <Container>
+        <UserInfo />
+        <PostsPage />
+        <WidgetsPage />
+      </Container>
     </>
   );
 };
