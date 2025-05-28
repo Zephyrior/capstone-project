@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
+import { PlusCircleFill } from "react-bootstrap-icons";
 
 const SmallCircle = () => {
   const [smallCircle, setSmallCircle] = useState(null);
@@ -10,8 +11,8 @@ const SmallCircle = () => {
           {smallCircle ? (
             <p>Small Circle:</p>
           ) : (
-            <Button variant="outline-success" className="border border-0">
-              Add Small Circle
+            <Button variant="outline-success" className="border border-0" size="sm">
+              Add Small Circle <PlusCircleFill />
             </Button>
           )}
         </div>

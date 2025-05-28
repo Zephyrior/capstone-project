@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+/* import { useEffect, useState } from "react"; */
+import { useEffect } from "react";
 import { Button, Container, Image } from "react-bootstrap";
-import api from "../services/api";
+/* import api from "../services/api"; */
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAction } from "../redux/actions";
 
 const UserInfo = () => {
-  const token = localStorage.getItem("token");
-  const [user, setUser] = useState(null);
+  /*   const token = localStorage.getItem("token");
+  const [user, setUser] = useState(null); */
 
-  const fetchUser = () => {
+  /*   const fetchUser = () => {
     if (token) {
       api
         .get("/auth/me", {
@@ -21,30 +24,34 @@ const UserInfo = () => {
           console.error(error);
         });
     }
-  };
+  }; */
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    dispatch(fetchUserAction());
+  }, [dispatch]);
   return (
     <>
       <Container fluid className="mb-4 text-center">
         {user ? (
-          <div className="border border-1 rounded-3 p-2" style={{ background: "#E5F5E0" }}>
-            <Image
-              src={user.profilePictureUrl}
-              alt={`Profile picture of ${user.completeName}`}
-              roundedCircle
-              style={{ width: "100%", maxWidth: "100px", height: "auto", objectFit: "cover" }}
-              className="mt-2 mb-3"
-            />
-            <p className="mt-2 mb-0" style={{ fontWeight: "bold" }}>
-              {user.completeName}
-            </p>
-            <Button variant="link" style={{ textDecoration: "none", color: "#198754" }}>
-              View your profile
-            </Button>
+          <div className="border border-1 rounded-3 p-3" style={{ background: "#E5F5E0" }}>
+            <div className="border p-3 rounded shadow-sm mb-3" style={{ background: "#fff" }}>
+              <Image
+                src={user.profilePictureUrl}
+                alt={`Profile picture of ${user.completeName}`}
+                roundedCircle
+                style={{ width: "100%", maxWidth: "100px", height: "auto", objectFit: "cover" }}
+                className="mt-2 mb-3"
+              />
+              <p className="mt-2 mb-0" style={{ fontWeight: "bold" }}>
+                {user.completeName}
+              </p>
+              <Button variant="link" style={{ textDecoration: "none", color: "#198754" }} size="sm">
+                View your profile
+              </Button>
+            </div>
           </div>
         ) : (
           <p>Loading user info...</p>
