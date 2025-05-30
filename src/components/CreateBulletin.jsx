@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
-const CreatePost = () => {
+const CreateBulletin = () => {
   const user = useSelector((state) => state.user);
   return (
     <>
@@ -16,8 +16,8 @@ const CreatePost = () => {
             </Col>
             <Col xs={11} className="ps-1">
               <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Control type="text" placeholder="Share something..." />
+                <Form.Group className="mb-3" controlId="formBasicTextArea">
+                  <Form.Control as="textarea" rows={2} placeholder="Share something..." />
                 </Form.Group>
 
                 <div className="d-flex justify-content-end">
@@ -34,4 +34,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreateBulletin;

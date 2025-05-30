@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Form, ListGroup, Row, Col } from "react-bootstrap";
+import { PlusCircleFill } from "react-bootstrap-icons";
 
 const ReminderWidget = () => {
   const [reminders, setReminders] = useState([]);
@@ -23,16 +24,21 @@ const ReminderWidget = () => {
       <h5>📝 Reminders</h5>
       <Form>
         <Row className="g-2 mb-2">
-          <Col xs={12} sm={8}>
+          <Col xs={12} sm={6}>
             <Form.Control type="text" placeholder="Reminder title" value={title} onChange={(e) => setTitle(e.target.value)} />
           </Col>
           <Col xs={12} sm={4}>
             <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </Col>
+          <Col xs={12} sm={2}>
+            <Button variant="outline-success" onClick={addReminder} className="w-100 border border-0">
+              <PlusCircleFill className="d-none d-md-block" />
+              <span className="d-md-none">
+                Add reminder <PlusCircleFill />
+              </span>
+            </Button>
+          </Col>
         </Row>
-        <Button variant="success" onClick={addReminder} className="w-100">
-          Add
-        </Button>
       </Form>
 
       <ListGroup className="mt-3">

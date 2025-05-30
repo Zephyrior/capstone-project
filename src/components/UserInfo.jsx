@@ -2,9 +2,9 @@
 import { useEffect } from "react";
 import { Button, Container, Image } from "react-bootstrap";
 /* import api from "../services/api"; */
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAction } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
   /*   const token = localStorage.getItem("token");
@@ -26,6 +26,7 @@ const UserInfo = () => {
     }
   }; */
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -48,7 +49,7 @@ const UserInfo = () => {
               <p className="mt-2 mb-0" style={{ fontWeight: "bold" }}>
                 {user.completeName}
               </p>
-              <Button variant="link" style={{ textDecoration: "none", color: "#198754" }} size="sm">
+              <Button variant="link" style={{ textDecoration: "none", color: "#198754" }} size="sm" onClick={() => navigate("/Profile")}>
                 View your profile
               </Button>
             </div>

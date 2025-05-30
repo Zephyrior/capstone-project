@@ -15,17 +15,35 @@ const Login = () => {
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
+  const isAtLeast18 = (dateString) => {
+    const today = new Date();
+    const birth = new Date(dateString);
+    const age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    const dayDiff = today.getDate() - birth.getDate();
+
+    return age > 18 || (age === 18 && (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const apiUrl = import.meta.env.VITE_API_URL;
     console.log("api url", apiUrl);
+
+    if (!isLogin && !isAtLeast18(birthDate)) {
+      setError("You must be at least 18 years old to register.");
+      return;
+    }
+
     try {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
       const response = await api.post(`${apiUrl}${endpoint}`, isLogin ? { email, password } : { email, password, firstName, lastName, birthDate });
       localStorage.setItem("token", response.data.token);
       console.log(response);
       setToken(response.data.token);
-      navigate("/home");
+      navigate(isLogin ? "/Home" : "/Login");
+      setIsLogin(true);
     } catch (error) {
       const errorMessage = error.response?.data || "Error";
       setError(errorMessage);

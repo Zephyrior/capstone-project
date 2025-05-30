@@ -3,15 +3,19 @@ import "./App.css";
 import LoginPage from "./components/LoginPage";
 import Home from "./components/Home";
 import Layout from "./components/Layout";
+import ProfilePage from "./components/ProfilePage";
+import WidgetsPage from "./components/WidgetsPage";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/Login" element={<LoginPage />} />
           <Route element={<Layout />}>
             <Route path="/Home" element={<Home />} />
+            <Route path="/Profile" element={<ProfilePage />} />
+            <Route path="/Widgets" element={<WidgetsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

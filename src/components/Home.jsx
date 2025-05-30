@@ -1,9 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap";
 import UserInfo from "./UserInfo";
-import PostsPage from "./PostsPage";
 import WidgetsPage from "./WidgetsPage";
-import CreatePost from "./CreatePost";
 import SmallCircle from "./SmallCircle";
+import Footer from "./footer";
+import CreateBulletin from "./CreateBulletin";
+import BulletinBoard from "./BulletinBoard";
 
 const Home = () => {
   return (
@@ -13,10 +14,11 @@ const Home = () => {
           <Col md={2} className="d-none d-md-block">
             <UserInfo />
             <SmallCircle />
+            <Footer />
           </Col>
           <Col md={6} lg={{ offset: 1 }}>
-            <CreatePost />
-            <PostsPage />
+            <CreateBulletin />
+            <BulletinBoard />
           </Col>
           <Col md={4} lg={3} className="d-none d-md-block">
             <WidgetsPage />
