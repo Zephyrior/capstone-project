@@ -11,16 +11,22 @@ const Home = () => {
     <>
       <Container fluid>
         <Row>
-          <Col md={2} className="d-none d-md-block">
+          <Col lg={2} className="d-none d-lg-block">
             <UserInfo />
             <SmallCircle />
             <Footer />
           </Col>
-          <Col md={6} lg={{ offset: 1 }}>
+          <Col md={8} lg={6} xl={{ offset: 1 }}>
             <CreateBulletin />
             <BulletinBoard />
+            <div className="d-block d-lg-none">
+              <Footer />
+            </div>
           </Col>
-          <Col md={4} lg={3} className="d-none d-md-block">
+          <Col md={4} lg={4} xl={3} className="d-none d-md-block">
+            <div className="d-block d-lg-none">
+              <UserInfo />
+            </div>
             <WidgetsPage />
           </Col>
         </Row>

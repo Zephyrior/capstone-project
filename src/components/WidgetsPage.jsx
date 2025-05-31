@@ -2,6 +2,7 @@ import { Button, Container } from "react-bootstrap";
 import ReminderWidget from "./ReminderWidget";
 import SpotifyWidget from "./SpotifyWidget";
 import { PlusCircleFill } from "react-bootstrap-icons";
+import Footer from "./footer";
 
 const WidgetsPage = () => {
   return (
@@ -14,6 +15,9 @@ const WidgetsPage = () => {
           <Button variant="outline-success" className="border border-0" size="sm">
             add widgets <PlusCircleFill />
           </Button>
+        </div>
+        <div className="d-md-none">
+          <Footer />
         </div>
       </Container>
     </>
