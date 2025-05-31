@@ -74,6 +74,9 @@ function NavbarGlobal() {
               <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/Profile")}>
                 View Profile
               </Dropdown.Item>
+              <Dropdown.Item as="button" style={{ background: "none" }}>
+                Edit Profile
+              </Dropdown.Item>
               <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/Widgets")} className="d-md-none">
                 Your Widgets
               </Dropdown.Item>

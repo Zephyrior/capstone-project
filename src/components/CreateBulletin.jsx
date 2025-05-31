@@ -1,16 +1,18 @@
 import { Component } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateBulletin = () => {
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
   return (
     <>
       <div className="border border-1 rounded-3 p-3 mb-4" style={{ background: "#E5F5E0" }}>
         <Container fluid>
           <Row>
             <Col lg={1} className="px-0 d-none d-lg-block">
-              <Button variant="link" className="p-0 ">
+              <Button variant="link" onClick={() => navigate("/Profile")} className="p-0 mt-2 me-1">
                 <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "50px", height: "auto", objectFit: "cover" }} />
               </Button>
             </Col>
