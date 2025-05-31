@@ -46,3 +46,45 @@ export const fetchProfileViewsAction = (userId) => {
     }
   };
 };
+
+export const SET_MYCIRCLES = "SET_MYCIRCLES";
+export const setMyCirclesAction = (myCircles) => ({ type: SET_MYCIRCLES, payload: myCircles });
+
+export const fetchMyCirclesAction = () => {
+  return async (dispatch) => {
+    if (token) {
+      api
+        .get("/circles/mycircles", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setMyCirclesAction(response.data));
+          console.log("My Circles response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
+export const SET_MYSMALLCIRCLE = "SET_MYSMALLCIRCLE";
+export const setMySmallCircleAction = (mySmallCircle) => ({ type: SET_MYSMALLCIRCLE, payload: mySmallCircle });
+
+export const fetchMySmallCircleAction = () => {
+  return async (dispatch) => {
+    if (token) {
+      api
+        .get("/circles/mycircles", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setMySmallCircleAction(response.data));
+          console.log("My Small Circle response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
