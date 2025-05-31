@@ -9,12 +9,12 @@ const CreateBulletin = () => {
       <div className="border border-1 rounded-3 p-3 mb-4" style={{ background: "#E5F5E0" }}>
         <Container fluid>
           <Row>
-            <Col xs={1} className="px-0">
-              <Button variant="link" className="p-0">
+            <Col lg={1} className="px-0 d-none d-lg-block">
+              <Button variant="link" className="p-0 ">
                 <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "50px", height: "auto", objectFit: "cover" }} />
               </Button>
             </Col>
-            <Col xs={11} className="ps-1">
+            <Col xs={12} lg={11} className="ps-1">
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicTextArea">
                   <Form.Control as="textarea" rows={2} placeholder="Share something..." />

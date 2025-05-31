@@ -56,6 +56,10 @@ const Login = () => {
     }
   }, [token]);
 
+  useEffect(() => {
+    setError("");
+  }, [firstName, lastName, birthDate, email, password]);
+
   return (
     <>
       <Container fluid style={{ background: "#E5F5E0" }} className="px-0 w-100 vh-100 border border start-5">
