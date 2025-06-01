@@ -1,9 +1,9 @@
-import { Component, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import { Button, Col, Container, Form, FormControl, Image, Row } from "react-bootstrap";
 import { ImageFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchCreateBulletinAction } from "../redux/actions";
+import { fetchBulletinPostsAction, fetchCreateBulletinAction } from "../redux/actions";
 
 const CreateBulletin = () => {
   const user = useSelector((state) => state.user);
@@ -12,17 +12,38 @@ const CreateBulletin = () => {
 
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
+    }
+  };
+
+  const handleChangeImage = () => {
+    setImageFile(null);
+    setPreviewUrl(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(fetchCreateBulletinAction(content, imageFile));
+
+    await dispatch(fetchCreateBulletinAction(content, imageFile));
+    dispatch(fetchBulletinPostsAction());
+
     setContent("");
     setImageFile(null);
+    setPreviewUrl(null);
   };
+
+  useEffect(() => {
+    dispatch(fetchBulletinPostsAction());
+  }, [dispatch]);
 
   return (
     <>
@@ -48,6 +69,16 @@ const CreateBulletin = () => {
                     style={{ opacity: 0, position: "absolute", top: 0, left: 0, height: "100%", width: "100%", zIndex: -1 }}
                   />
                 </Form.Group>
+                {previewUrl && (
+                  <div className="mb-3 position-relative">
+                    <Image src={previewUrl} thumbnail style={{ maxHeight: "200px", objectFit: "contain" }} />
+                    <div className="pin-icon position-absolute" style={{ top: "-20px", left: "-10px", fontSize: "2rem" }}>
+                      <Button variant="success" size="sm" className="rounded-circle" style={{ fontSize: "12px" }} onClick={handleChangeImage}>
+                        ✕
+                      </Button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="d-flex justify-content-end">
                   <Button

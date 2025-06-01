@@ -6,6 +6,7 @@ import myCirclesReducer from "../reducers/myCirclesReducer";
 import mySmallCircleReducer from "../reducers/mySmallCircleReducer";
 import bulletinPostsReducer from "../reducers/bulletinPostsReducer";
 import createBulletinReducer from "../reducers/createBulletinReducer";
+import bulletinCommentsReducer from "../reducers/bulletinCommentsReducer";
 
 const rootReducer = combineReducers({
   token: tokenReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   mySmallCircle: mySmallCircleReducer,
   bulletinPosts: bulletinPostsReducer,
   createBulletin: createBulletinReducer,
+  bulletinComments: bulletinCommentsReducer,
 });
 
 const store = configureStore({

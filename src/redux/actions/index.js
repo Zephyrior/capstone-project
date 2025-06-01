@@ -152,3 +152,34 @@ export const fetchCreateBulletinAction = (content, imageFile) => {
     }
   };
 };
+
+export const SET_BULLETINCOMMENTS = "SET_BULLETINCOMMENTS";
+export const setBulletinCommentsAction = (bulletinComments) => ({ type: SET_BULLETINCOMMENTS, payload: bulletinComments });
+
+export const fetchBulletinCommentsAction = () => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get("/comments", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setBulletinCommentsAction(response.data));
+          console.log("Bulletin Comments response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
+export const ADD_BULLETINCOMMENTS = "ADD_BULLETINCOMMENTS";
+export const setAddBulletinCommentsAction = (addBulletinComments) => ({ type: ADD_BULLETINCOMMENTS, payload: addBulletinComments });
+
+export const UPDATE_BULLETINCOMMENTS = "UPDATE_BULLETINCOMMENTS";
+export const setUpdateBulletinCommentsAction = (updateBulletinComments) => ({ type: UPDATE_BULLETINCOMMENTS, payload: updateBulletinComments });
+
+export const DELETE_BULLETINCOMMENTS = "DELETE_BULLETINCOMMENTS";
+export const setDeleteBulletinCommentsAction = (deleteBulletinComments) => ({ type: UPDATE_BULLETINCOMMENTS, payload: deleteBulletinComments });

@@ -36,7 +36,7 @@ const ProfileUserInfo = () => {
               </Col>
               <Col xs={12} md={6}>
                 <div className="border p-3 rounded shadow-sm mb-1" style={{ background: "#fff" }}>
-                  {user.shoutOut ? user.shoutOut : "Speak your mind!"}
+                  {user.shoutOut ? user.shoutOut : "Speak your mind! 💭"}
                 </div>
                 <div className="p-3">
                   <h5>{user.completeName}</h5>
@@ -51,7 +51,7 @@ const ProfileUserInfo = () => {
                   <p className="mb-2">
                     <span style={{ textDecoration: "underline" }}>Bio:</span>
                     <br />
-                    <span className="ms-2">{user.bio ? user.bio : "Tell us something about yourself."}</span>
+                    <span className="ms-2">{user.bio ? user.bio : "Tell something about yourself."}</span>
                   </p>
                 </div>
               </Col>

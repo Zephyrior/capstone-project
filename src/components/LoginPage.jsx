@@ -7,10 +7,10 @@ const LoginPage = () => {
     <>
       <Container fluid className="px-0">
         <Row>
-          <Col md="8" className="d-none d-md-block px-0">
+          <Col md={6} xl={8} className="d-none d-md-block px-0">
             <LoginLogo />
           </Col>
-          <Col md="4" className="px-0">
+          <Col md={6} xl={4} className="px-0">
             <Login />
           </Col>
         </Row>
