@@ -8,7 +8,6 @@ const SmallCircle = () => {
   const dispatch = useDispatch();
   const smallCircle = useSelector((state) => state.mySmallCircle.mySmallCircle);
   console.log("my small circle: ", smallCircle);
-  //const [smallCircle, setSmallCircle] = useState(null);
 
   useEffect(() => {
     dispatch(fetchMySmallCircleAction());

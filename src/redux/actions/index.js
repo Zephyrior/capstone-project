@@ -6,10 +6,9 @@ export const setTokenAction = (token) => ({ type: SET_TOKEN, payload: token });
 export const SET_USER = "SET_USER";
 export const setUserAction = (user) => ({ type: SET_USER, payload: user });
 
-const token = localStorage.getItem("token");
-
 export const fetchUserAction = () => {
   return async (dispatch) => {
+    const token = localStorage.getItem("token");
     if (token) {
       api
         .get("/auth/me", {
@@ -31,6 +30,7 @@ export const setProfileViewsAction = (profileViews) => ({ type: SET_PROFILEVIEWS
 
 export const fetchProfileViewsAction = (userId) => {
   return async (dispatch) => {
+    const token = localStorage.getItem("token");
     if (token && userId) {
       api
         .get(`/profile-views/${userId}`, {
@@ -52,6 +52,7 @@ export const setMyCirclesAction = (myCircles) => ({ type: SET_MYCIRCLES, payload
 
 export const fetchMyCirclesAction = () => {
   return async (dispatch) => {
+    const token = localStorage.getItem("token");
     if (token) {
       api
         .get("/circles/mycircles", {
@@ -73,6 +74,7 @@ export const setMySmallCircleAction = (mySmallCircle) => ({ type: SET_MYSMALLCIR
 
 export const fetchMySmallCircleAction = () => {
   return async (dispatch) => {
+    const token = localStorage.getItem("token");
     if (token) {
       api
         .get("/circles/mycircles", {
@@ -85,6 +87,68 @@ export const fetchMySmallCircleAction = () => {
         .catch((error) => {
           console.error(error);
         });
+    }
+  };
+};
+
+export const SET_BULLETINPOSTS = "SET_BULLETINPOSTS";
+export const setBulletinPostsAction = (bulletinPosts) => ({ type: SET_BULLETINPOSTS, payload: bulletinPosts });
+
+export const fetchBulletinPostsAction = () => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get("posts?page=0&size=10&createdAt=createdAt", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setBulletinPostsAction(response.data));
+          console.log("Bulletin Posts response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
+export const SET_CREATEBULLETIN = "SET_CREATEBULLETIN";
+export const setCreateBulletinAction = (createBulletin) => ({ type: SET_CREATEBULLETIN, payload: createBulletin });
+
+export const fetchCreateBulletinAction = (content, imageFile) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        let mediaUrl = null;
+
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append("file", imageFile);
+
+          const uploadResponse = await api.post("/images/uploadme", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          mediaUrl = uploadResponse.data.url;
+        }
+        const postResponse = await api.post(
+          "/posts",
+          { content, mediaUrl },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        dispatch(setCreateBulletinAction(postResponse.data));
+        console.log("Created post: ", postResponse.data);
+      } catch (error) {
+        console.log("Error creating post: ", error);
+      }
     }
   };
 };
