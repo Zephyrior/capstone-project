@@ -20,6 +20,8 @@ const CreateBulletin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(fetchCreateBulletinAction(content, imageFile));
+    setContent("");
+    setImageFile(null);
   };
 
   return (
