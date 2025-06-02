@@ -37,7 +37,13 @@ const CommentAndLikeSection = ({ postId }) => {
         <Container fluid>
           <Row>
             <div className="d-flex justify-content-center w-100 gap-2">
-              <Button variant="Light" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={() => setShowAdore(!showAdore)}>
+              <Button
+                variant="Light"
+                size="sm"
+                style={{ textDecoration: "none", color: "black" }}
+                className="flex-fill"
+                onClick={() => setShowAdore(!showAdore)}
+              >
                 {!showAdore && (
                   <div>
                     <Stars /> Adore <Stars />
@@ -50,7 +56,13 @@ const CommentAndLikeSection = ({ postId }) => {
                   </div>
                 )}
               </Button>
-              <Button variant="Light" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={() => setShowComments(!showComments)}>
+              <Button
+                variant="Light"
+                size="sm"
+                style={{ textDecoration: "none", color: "black" }}
+                className="flex-fill"
+                onClick={() => setShowComments(!showComments)}
+              >
                 View Comments
               </Button>
             </div>
