@@ -16,6 +16,7 @@ function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/Profile" element={<ProfilePage />} />
             <Route path="/Widgets" element={<WidgetsPage />} />
+            <Route path="/Profile/:id" element={<ProfilePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

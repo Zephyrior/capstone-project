@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function NavbarGlobal() {
   const user = useSelector((state) => state.user);
+  console.log("user navbar: ", user);
   const [showLogo, setShowLogo] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");

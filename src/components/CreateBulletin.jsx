@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Form, FormControl, Image, Row } from "react-bootstrap";
 import { ImageFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ const CreateBulletin = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const fileInputRef = useRef(null);
 
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -28,6 +29,10 @@ const CreateBulletin = () => {
   const handleChangeImage = () => {
     setImageFile(null);
     setPreviewUrl(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -66,6 +71,7 @@ const CreateBulletin = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
+                    ref={fileInputRef}
                     style={{ opacity: 0, position: "absolute", top: 0, left: 0, height: "100%", width: "100%", zIndex: -1 }}
                   />
                 </Form.Group>

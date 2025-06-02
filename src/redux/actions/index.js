@@ -25,6 +25,28 @@ export const fetchUserAction = () => {
   };
 };
 
+export const SET_OTHERUSER = "SET_OTHERUSER";
+export const setOtherUserAction = (user) => ({ type: SET_OTHERUSER, payload: user });
+
+export const fetchOtherUserAction = (id) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/auth/user/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setOtherUserAction(response.data));
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
 export const SET_PROFILEVIEWS = "SET_PROFILEVIEWS";
 export const setProfileViewsAction = (profileViews) => ({ type: SET_PROFILEVIEWS, payload: profileViews });
 
