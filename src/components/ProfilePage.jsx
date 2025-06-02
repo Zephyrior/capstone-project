@@ -32,12 +32,12 @@ const ProfilePage = () => {
           <Row className="mx-auto">
             <Col md={7}>
               <ProfileUserInfo />
-              <Container>
-                <CreateBulletin />
-              </Container>
               <div className="d-block d-md-none">
                 <CircleList />
               </div>
+              <Container>
+                <CreateBulletin />
+              </Container>
               <ProfileBulletin />
               <div className="d-block d-md-none">
                 <Footer />

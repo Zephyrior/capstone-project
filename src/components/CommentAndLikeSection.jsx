@@ -42,7 +42,7 @@ const CommentAndLikeSection = ({ postId }) => {
                   <div key={comment.id} className="border border-1 rounded-3 my-2">
                     <Container fluid>
                       <Row className="mb-2 mt-3">
-                        <Col lg={1} className={hide ? "d-none" : ""}>
+                        <Col xs={1} className={hide ? "d-none" : ""}>
                           <Image
                             src={comment.authorProfilePictureUrl}
                             roundedCircle
@@ -50,8 +50,8 @@ const CommentAndLikeSection = ({ postId }) => {
                             className="p-0"
                           />
                         </Col>
-                        <Col xl={1} className={hide ? "d-xl-block" : "d-none"}></Col>
-                        <Col xl={10} xs={{ span: 8, offset: 1 }} className="ps-0 d-flex align-items-center">
+                        {/* <Col xl={1} className={hide ? "d-xl-block" : "d-none"}></Col> */}
+                        <Col xl={9} xs={{ span: 8, offset: 1 }} className="ps-0 d-flex align-items-center">
                           <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="p-0">
                             {comment.authorFullName}
                           </Button>
@@ -60,7 +60,7 @@ const CommentAndLikeSection = ({ postId }) => {
                           </p>
                         </Col>
                         {comment?.authorId && user?.id === comment.authorId ? (
-                          <Col lg={1} className="d-flex justify-content-end align-items-end flex-column-reverse">
+                          <Col xs={1} className="d-flex justify-content-end align-items-end flex-column-reverse">
                             <Dropdown>
                               <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
                                 <ThreeDots />
