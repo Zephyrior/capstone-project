@@ -23,6 +23,7 @@ const rootReducer = combineReducers({
   otherUser: otherUserReducer,
   searchUser: searchUserReducer,
   searchUserById: searchUserByIdReducer,
+  othersCircle: otherUserReducer,
 });
 
 const store = configureStore({

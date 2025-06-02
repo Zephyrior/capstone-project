@@ -113,6 +113,28 @@ export const fetchMySmallCircleAction = () => {
   };
 };
 
+export const SET_OTHERSCIRCLE = "SET_OTHERSCIRCLE";
+export const setOthersCircleAction = (userId, othersCircle) => ({ type: SET_OTHERSCIRCLE, payload: { userId, othersCircle } });
+
+export const fetchOthersCircle = (userId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/circles/usercircles?id=${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setOthersCircleAction(userId, response.data));
+          console.log("Others Cicle response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
 export const SET_BULLETINPOSTS = "SET_BULLETINPOSTS";
 export const setBulletinPostsAction = (bulletinPosts) => ({ type: SET_BULLETINPOSTS, payload: bulletinPosts });
 
