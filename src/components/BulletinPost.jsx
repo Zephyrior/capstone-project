@@ -56,6 +56,20 @@ const BulletinPost = ({ post }) => {
             <p>{post.content}</p>
             <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
           </Row>
+          <Row>
+            <Col className="d-flex justify-content-start">
+              <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                {post.likesCount} adores
+              </Button>
+              <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                •
+              </Button>
+
+              <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                {post.comments.length} comments
+              </Button>
+            </Col>
+          </Row>
         </Container>
         <CommentAndLikeSection postId={post.id} />
       </div>

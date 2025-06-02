@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addBulletinCommentsAction, fetchBulletinCommentsAction } from "../redux/actions";
+import { addBulletinCommentsAction, fetchBulletinCommentsAction, fetchBulletinPostsAction } from "../redux/actions";
 import { Heart, HeartFill, Star, Stars, ThreeDots } from "react-bootstrap-icons";
 
 const CommentAndLikeSection = ({ postId }) => {
@@ -24,6 +24,7 @@ const CommentAndLikeSection = ({ postId }) => {
 
     await dispatch(addBulletinCommentsAction(comment, postId));
     dispatch(fetchBulletinCommentsAction(postId));
+    dispatch(fetchBulletinPostsAction());
     setComment("");
   };
 
