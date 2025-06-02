@@ -154,18 +154,18 @@ export const fetchCreateBulletinAction = (content, imageFile) => {
 };
 
 export const SET_BULLETINCOMMENTS = "SET_BULLETINCOMMENTS";
-export const setBulletinCommentsAction = (bulletinComments) => ({ type: SET_BULLETINCOMMENTS, payload: bulletinComments });
+export const setBulletinCommentsAction = (postId, bulletinComment) => ({ type: SET_BULLETINCOMMENTS, payload: { postId, bulletinComment } });
 
-export const fetchBulletinCommentsAction = () => {
+export const fetchBulletinCommentsAction = (postId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
       api
-        .get("/comments", {
+        .get(`/comments/${postId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          dispatch(setBulletinCommentsAction(response.data));
+          dispatch(setBulletinCommentsAction(postId, response.data));
           console.log("Bulletin Comments response: ", response.data);
         })
         .catch((error) => {
@@ -176,7 +176,37 @@ export const fetchBulletinCommentsAction = () => {
 };
 
 export const ADD_BULLETINCOMMENTS = "ADD_BULLETINCOMMENTS";
-export const setAddBulletinCommentsAction = (addBulletinComments) => ({ type: ADD_BULLETINCOMMENTS, payload: addBulletinComments });
+export const setAddBulletinCommentsAction = (postId, bulletinComment) => ({
+  type: ADD_BULLETINCOMMENTS,
+  payload: { postId, bulletinComment },
+});
+
+export const addBulletinCommentsAction = (newComment, postId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.post(
+          "/comments",
+          {
+            content: newComment,
+            postId: postId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        dispatch(setAddBulletinCommentsAction(postId, response.data));
+        console.log("Bulletin comment created:", response.data);
+      } catch (error) {
+        console.error("Error creating comment:", error);
+      }
+    }
+  };
+};
 
 export const UPDATE_BULLETINCOMMENTS = "UPDATE_BULLETINCOMMENTS";
 export const setUpdateBulletinCommentsAction = (updateBulletinComments) => ({ type: UPDATE_BULLETINCOMMENTS, payload: updateBulletinComments });

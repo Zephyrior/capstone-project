@@ -1,0 +1,66 @@
+import { Button, Col, Container, Dropdown, Image, Row } from "react-bootstrap";
+import { ThreeDots } from "react-bootstrap-icons";
+import CommentAndLikeSection from "./CommentAndLikeSection";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+
+const BulletinPost = ({ post }) => {
+  const location = useLocation();
+  const hide = location.pathname === "/Profile";
+  const userId = useSelector((state) => state.user.id);
+  const authorId = post.authorId;
+  return (
+    <>
+      <div key={post.id} className="border p-3 rounded shadow-sm mb-3 position-relative" style={{ background: "#fff" }}>
+        <Container>
+          <div className="pin-icon position-absolute" style={{ top: "-20px", right: "-15px", fontSize: "2rem" }}>
+            📌
+          </div>
+          <Row className="mb-4">
+            <Col xs={2} className={hide ? "d-none" : ""}>
+              <Image src={post.authorProfilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "70px", height: "auto", objectFit: "cover" }} />
+            </Col>
+            <Col xs={1} className={!hide ? "d-none" : ""}></Col>
+            <Col xs={8} className="ps-0">
+              <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
+                {post.authorFullName}
+              </Button>
+              <p style={{ fontSize: "10px" }} className="mb-0">
+                {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
+              </p>
+            </Col>
+            {userId === authorId ? (
+              <Col xs={2} className="d-flex justify-content-end align-items-end flex-column-reverse">
+                {/*                     <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0">
+                      <ThreeDots />
+                    </Button> */}
+                <Dropdown>
+                  <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
+                    <ThreeDots />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item as="button" style={{ background: "none" }}>
+                      Edit Post
+                    </Dropdown.Item>
+                    <Dropdown.Item as="button" style={{ background: "none" }}>
+                      Delete Post
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Col>
+            ) : (
+              <div></div>
+            )}
+          </Row>
+          <Row className={`mb-3 ${hide ? "ms-2" : ""}`}>
+            <p>{post.content}</p>
+            <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
+          </Row>
+        </Container>
+        <CommentAndLikeSection postId={post.id} />
+      </div>
+    </>
+  );
+};
+
+export default BulletinPost;
