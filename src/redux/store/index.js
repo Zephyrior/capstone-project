@@ -9,6 +9,7 @@ import createBulletinReducer from "../reducers/createBulletinReducer";
 import bulletinCommentsReducer from "../reducers/bulletinCommentsReducer";
 import otherUserReducer from "../reducers/otherUserReducer.js";
 import searchUserReducer from "../reducers/searchUserReducer.js";
+import searchUserByIdReducer from "../reducers/searchUserByIdReducer.js";
 
 const rootReducer = combineReducers({
   token: tokenReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   bulletinComments: bulletinCommentsReducer,
   otherUser: otherUserReducer,
   searchUser: searchUserReducer,
+  searchUserById: searchUserByIdReducer,
 });
 
 const store = configureStore({

@@ -33,7 +33,7 @@ export const fetchOtherUserAction = (id) => {
     const token = localStorage.getItem("token");
     if (token) {
       api
-        .get(`/auth/user/${id}`, {
+        .get(`/auth/id/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -250,6 +250,28 @@ export const searchUserAction = (searchUser) => {
         .then((response) => {
           dispatch(setSearchUserAction(response.data));
           console.log("Search user response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
+
+export const SEARCH_USERID = "SEARCH_USERID";
+export const setSearchUserById = (userId) => ({ type: SEARCH_USERID, payload: userId });
+
+export const searchUserById = (userId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/auth/id/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setSearchUserById(response.data));
+          console.log("Search User By Id: ", response.data);
         })
         .catch((error) => {
           console.error(error);

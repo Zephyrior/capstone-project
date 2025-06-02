@@ -1,11 +1,20 @@
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { searchUserById } from "../redux/actions";
 
 const GeneralCircleList = () => {
   const searchedUsers = useSelector((state) => state.searchUser.searchUser);
   const users = searchedUsers || [];
   console.log("SearchedUsers FE: ", searchedUsers);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleClick = (userId) => {
+    dispatch(searchUserById(userId));
+    navigate(`/profile/${userId}`);
+  };
 
   const { name } = useParams();
   return (
@@ -42,7 +51,14 @@ const GeneralCircleList = () => {
                             />
                           </Col>
                           <Col xs={6} lg={7}>
-                            <Button variant="link" style={{ textDecoration: "none", color: "black", fontWeight: "bold" }} className="p-0">
+                            <Button
+                              variant="link"
+                              style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}
+                              className="p-0"
+                              onClick={() => {
+                                handleClick(user.id);
+                              }}
+                            >
                               {user.completeName}
                             </Button>
                             <p className="text-muted fw-light">member since: {user.createdAt}</p>

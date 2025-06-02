@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfileViewsAction } from "../redux/actions";
+import { fetchOtherUserAction, fetchProfileViewsAction } from "../redux/actions";
 import { useParams } from "react-router-dom";
 
 const ProfileUserInfo = () => {
@@ -18,11 +18,12 @@ const ProfileUserInfo = () => {
   const profile = id ? otherUser : user;
 
   useEffect(() => {
-    if (user.id) {
+    if (id) {
+      dispatch(fetchOtherUserAction(id));
+    } else if (user.id) {
       dispatch(fetchProfileViewsAction(user.id));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [dispatch, id, user.id]);
   return (
     <>
       <Container>
