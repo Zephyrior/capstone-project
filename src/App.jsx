@@ -5,18 +5,20 @@ import Home from "./components/Home";
 import Layout from "./components/Layout";
 import ProfilePage from "./components/ProfilePage";
 import WidgetsPage from "./components/WidgetsPage";
+import GeneralCircleList from "./components/GeneralCircleList";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route element={<Layout />}>
-            <Route path="/Home" element={<Home />} />
-            <Route path="/Profile" element={<ProfilePage />} />
-            <Route path="/Widgets" element={<WidgetsPage />} />
-            <Route path="/Profile/:id" element={<ProfilePage />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/widgets" element={<WidgetsPage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="/search/:name" element={<GeneralCircleList />} />
           </Route>
         </Routes>
       </BrowserRouter>

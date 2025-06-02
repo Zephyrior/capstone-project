@@ -1,9 +1,10 @@
 import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ToggleSearchBar from "./ToggleSearchBar";
 import { Search } from "react-bootstrap-icons";
 import { useState } from "react";
+import { searchUserAction } from "../redux/actions";
 
 function NavbarGlobal() {
   const user = useSelector((state) => state.user);
@@ -11,6 +12,17 @@ function NavbarGlobal() {
   const [showLogo, setShowLogo] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+
+  const [search, setSearch] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await dispatch(searchUserAction(search));
+    setSearch("");
+    navigate(`/search/${search}`);
+  };
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -32,9 +44,9 @@ function NavbarGlobal() {
             C
           </Navbar.Brand>
         )}
-        <Form className="d-sm-flex d-none align-items-end ms-auto me-5">
+        <Form className="d-sm-flex d-none align-items-end ms-auto me-5" onSubmit={handleSubmit}>
           <InputGroup>
-            <Form.Control type="search" placeholder="Search circle" aria-label="Search" />
+            <Form.Control type="search" placeholder="Search circle" aria-label="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
             <Button type="submit" variant="outline-success">
               <Search />
             </Button>

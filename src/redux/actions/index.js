@@ -231,7 +231,29 @@ export const addBulletinCommentsAction = (newComment, postId) => {
 };
 
 export const UPDATE_BULLETINCOMMENTS = "UPDATE_BULLETINCOMMENTS";
-export const setUpdateBulletinCommentsAction = (updateBulletinComments) => ({ type: UPDATE_BULLETINCOMMENTS, payload: updateBulletinComments });
+export const setUpdateBulletinCommentsAction = (bulletinComment) => ({ type: UPDATE_BULLETINCOMMENTS, payload: bulletinComment });
 
 export const DELETE_BULLETINCOMMENTS = "DELETE_BULLETINCOMMENTS";
-export const setDeleteBulletinCommentsAction = (deleteBulletinComments) => ({ type: UPDATE_BULLETINCOMMENTS, payload: deleteBulletinComments });
+export const setDeleteBulletinCommentsAction = (bulletinComment) => ({ type: DELETE_BULLETINCOMMENTS, payload: bulletinComment });
+
+export const SEARCH_USER = "SEARCH_USER";
+export const setSearchUserAction = (searchUser) => ({ type: SEARCH_USER, payload: searchUser });
+
+export const searchUserAction = (searchUser) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/auth/find-users?name=${searchUser}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setSearchUserAction(response.data));
+          console.log("Search user response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+};
