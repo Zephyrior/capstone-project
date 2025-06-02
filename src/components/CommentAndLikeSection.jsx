@@ -3,7 +3,7 @@ import { Button, Col, Container, Dropdown, Form, Image, Row } from "react-bootst
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addBulletinCommentsAction, fetchBulletinCommentsAction } from "../redux/actions";
-import { ThreeDots } from "react-bootstrap-icons";
+import { Heart, HeartFill, Star, Stars, ThreeDots } from "react-bootstrap-icons";
 
 const CommentAndLikeSection = ({ postId }) => {
   const user = useSelector((state) => state.user);
@@ -16,6 +16,8 @@ const CommentAndLikeSection = ({ postId }) => {
   const location = useLocation();
   const hide = location.pathname === "/Profile";
   const [comment, setComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
+  const [showAdore, setShowAdore] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,83 +36,96 @@ const CommentAndLikeSection = ({ postId }) => {
         <hr />
         <Container fluid>
           <Row>
-            <Col>
-              {bulletinComments.length === 0 ? (
-                <p>No comments yet. 😢</p>
-              ) : (
-                bulletinComments.map((comment) => (
-                  <div key={comment.id} className="border border-1 rounded-3 my-2">
-                    <Container fluid>
-                      <Row className="mb-2 mt-3">
-                        <Col xs={1} className={hide ? "d-none" : ""}>
-                          <Image
-                            src={comment.authorProfilePictureUrl}
-                            roundedCircle
-                            style={{ width: "35px", height: "35px", objectFit: "cover" }}
-                            className="p-0"
-                          />
-                        </Col>
-                        {/* <Col xl={1} className={hide ? "d-xl-block" : "d-none"}></Col> */}
-                        <Col xl={9} xs={{ span: 8, offset: 1 }} className="ps-0 d-flex align-items-center">
-                          <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="p-0">
-                            {comment.authorFullName}
-                          </Button>
-                          <p style={{ fontSize: "10px" }} className={`mb-0 mt-1 ${hide ? "d-none" : ""}`}>
-                            - {comment.createdAt.split(" ")[1]} • {comment.createdAt.split(" ")[0]}
-                          </p>
-                        </Col>
-                        {comment?.authorId && user?.id === comment.authorId ? (
-                          <Col xs={1} className="d-flex justify-content-end align-items-end flex-column-reverse">
-                            <Dropdown>
-                              <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
-                                <ThreeDots />
-                              </Dropdown.Toggle>
-                              <Dropdown.Menu>
-                                <Dropdown.Item as="button" style={{ background: "none" }}>
-                                  Edit Comment
-                                </Dropdown.Item>
-                                <Dropdown.Item as="button" style={{ background: "none" }}>
-                                  Delete Comment
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </Col>
-                        ) : (
-                          <Col xs={1}></Col>
-                        )}
-                        {/*                         <Col xs={1} className="d-flex justify-content-end align-items-end flex-column-reverse">
-                          <Dropdown>
-                            <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
-                              <ThreeDots />
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              <Dropdown.Item as="button" style={{ background: "none" }}>
-                                Edit Comment
-                              </Dropdown.Item>
-                              <Dropdown.Item as="button" style={{ background: "none" }}>
-                                Delete Comment
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </Col> */}
-                      </Row>
-                      <Row>
-                        <Col>
-                          <p className="ms-3"> {comment.content}</p>
-                        </Col>
-                      </Row>
-                    </Container>
+            <div className="d-flex justify-content-center w-100 gap-2">
+              <Button variant="Light" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={() => setShowAdore(!showAdore)}>
+                {!showAdore && (
+                  <div>
+                    <Stars /> Adore <Stars />
                   </div>
-                ))
-              )}
-            </Col>
+                )}
+                {showAdore && (
+                  <div>
+                    <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
+                    <Stars style={{ color: "orange" }} />
+                  </div>
+                )}
+              </Button>
+              <Button variant="Light" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={() => setShowComments(!showComments)}>
+                View Comments
+              </Button>
+            </div>
+          </Row>
+          <Row>
+            {showComments && (
+              <Col>
+                {bulletinComments.length === 0 ? (
+                  <p>No comments yet. 😢</p>
+                ) : (
+                  bulletinComments.map((comment) => (
+                    <div key={comment.id} className="border border-1 rounded-3 my-2">
+                      <Container fluid>
+                        <Row className="mb-2 mt-3">
+                          <Col xs={1} className={hide ? "d-none" : ""}>
+                            <Image
+                              src={comment.authorProfilePictureUrl}
+                              roundedCircle
+                              style={{ width: "35px", height: "35px", objectFit: "cover" }}
+                              className="p-0"
+                            />
+                          </Col>
+                          <Col xl={9} xs={{ span: 8, offset: 1 }} className="ps-0 d-flex align-items-center">
+                            <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="p-0">
+                              {comment.authorFullName}
+                            </Button>
+                            <p style={{ fontSize: "10px" }} className={`mb-0 mt-1 ${hide ? "d-none" : ""}`}>
+                              {comment.createdAt ? (
+                                <>
+                                  - {comment.createdAt.split(" ")[1]} • {comment.createdAt.split(" ")[0]}
+                                </>
+                              ) : (
+                                <>- Just now</>
+                              )}
+                            </p>
+                          </Col>
+                          {comment?.authorId && user?.id === comment.authorId ? (
+                            <Col xs={1} className="d-flex justify-content-end align-items-end flex-column-reverse">
+                              <Dropdown>
+                                <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
+                                  <ThreeDots />
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                  <Dropdown.Item as="button" style={{ background: "none" }}>
+                                    Edit Comment
+                                  </Dropdown.Item>
+                                  <Dropdown.Item as="button" style={{ background: "none" }}>
+                                    Delete Comment
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </Col>
+                          ) : (
+                            <Col xs={1}></Col>
+                          )}
+                        </Row>
+                        <Row className="mt-3">
+                          <Col>
+                            <p className="ms-3"> {comment.content}</p>
+                          </Col>
+                        </Row>
+                      </Container>
+                    </div>
+                  ))
+                )}
+              </Col>
+            )}
           </Row>
           <Row className="mt-4">
-            <Col lg={1} className="px-0 d-none d-lg-block">
+            <Col lg={1} className={`${hide ? "d-none" : "px-0 d-none d-lg-block "}`}>
               <Button variant="link" onClick={() => navigate("/Profile")} className="p-0 ms-2 me-1">
                 <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "35px", height: "auto", objectFit: "cover" }} />
               </Button>
             </Col>
+            <Col lg={1} className={`${!hide ? "d-none" : ""}`}></Col>
             <Col xs={12} lg={11} className="ps-1">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicTextArea">
