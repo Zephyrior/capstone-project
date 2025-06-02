@@ -30,7 +30,15 @@ const ProfileUserInfo = () => {
           <div className="border border-1 rounded-3 p-3 mb-4" style={{ background: "#E5F5E0" }}>
             <Row>
               <Col xs={12} md={6} className="mb-2">
-                <Image fluid style={{ objectFit: "cover", width: "100%", height: "auto" }} src={profile.profilePictureUrl} />
+                <div className="position-relative">
+                  <div className="pin-icon position-absolute" style={{ top: "-20px", right: "1px", fontSize: "2.5rem" }}>
+                    📍
+                  </div>
+                  <div className="pin-icon position-absolute" style={{ bottom: "-30px", left: "-10px", fontSize: "3rem" }}>
+                    📎
+                  </div>
+                  <Image fluid style={{ objectFit: "cover", width: "100%", height: "auto" }} src={profile.profilePictureUrl} />
+                </div>
                 {!id && (
                   <div className="d-flex justify-content-center mt-3 w-100 gap-2">
                     <Button variant="outline-success" className="flex-fill">
