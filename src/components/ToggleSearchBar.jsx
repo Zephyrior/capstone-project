@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { searchUserAction } from "../redux/actions";
 
 const ToggleSearchBar = ({ toggleLogo }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
 
@@ -11,9 +16,11 @@ const ToggleSearchBar = ({ toggleLogo }) => {
     toggleLogo();
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("Search:", searchText);
+    await dispatch(searchUserAction(searchText));
+    setSearchText("");
+    navigate(`/search/${searchText}`);
 
     setTimeout(() => {
       setShowSearch(false);
