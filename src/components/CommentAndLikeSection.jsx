@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addBulletinCommentsAction, fetchBulletinCommentsAction, fetchBulletinPostsAction } from "../redux/actions";
+import { addBulletinCommentsAction, fetchBulletinCommentsAction, fetchBulletinPostsAction, toggleAdore } from "../redux/actions";
 import { Heart, HeartFill, Star, Stars, ThreeDots } from "react-bootstrap-icons";
 
 const CommentAndLikeSection = ({ postId }) => {
@@ -17,7 +17,15 @@ const CommentAndLikeSection = ({ postId }) => {
   const hide = location.pathname === "/Profile";
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
-  const [showAdore, setShowAdore] = useState(false);
+
+  const post = useSelector((state) => state.bulletinPosts.bulletinPosts.content.find((p) => p.id === postId));
+
+  const likedByCurrentUser = post?.likedByUser;
+
+  const toggleAdoreButton = async () => {
+    await dispatch(toggleAdore(postId));
+    dispatch(fetchBulletinPostsAction());
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,22 +46,15 @@ const CommentAndLikeSection = ({ postId }) => {
         <Container fluid>
           <Row>
             <div className="d-flex justify-content-center w-100 gap-2">
-              <Button
-                variant="Light"
-                size="sm"
-                style={{ textDecoration: "none", color: "black" }}
-                className="flex-fill"
-                onClick={() => setShowAdore(!showAdore)}
-              >
-                {!showAdore && (
-                  <div>
-                    <Stars /> Adore <Stars />
-                  </div>
-                )}
-                {showAdore && (
+              <Button variant="Light" size="sm" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={toggleAdoreButton}>
+                {likedByCurrentUser ? (
                   <div>
                     <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
                     <Stars style={{ color: "orange" }} />
+                  </div>
+                ) : (
+                  <div>
+                    <Stars /> Adore <Stars />
                   </div>
                 )}
               </Button>

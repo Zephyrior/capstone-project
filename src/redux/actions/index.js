@@ -301,3 +301,37 @@ export const searchUserById = (userId) => {
     }
   };
 };
+
+export const SET_ADORE = "SET_ADORE";
+export const setAdoreAction = (postId) => ({ type: SET_ADORE, payload: { postId } });
+
+export const toggleAdore = (postId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.post(`/likes/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setAdoreAction(postId, response.data));
+        console.log("Adore Response: ", response.data);
+      } catch (error) {
+        console.error("Error toggling like: ", error);
+      }
+    }
+  };
+};
+
+/*       api
+        .post(`/likes/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          dispatch(setAdoreAction(response.data));
+          console.log("Adore Response: ", response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        }); */

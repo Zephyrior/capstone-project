@@ -12,16 +12,18 @@ const ProfileBulletin = () => {
   const user = useSelector((state) => state.user);
   const otherUser = useSelector((state) => state.otherUser);
   const { id } = useParams();
-  const profile = id ? otherUser : user;
-  const isOwnProfile = !id;
+  const isViewingOwnProfile = id === String(user.id);
+
+  const profile = !id || isViewingOwnProfile ? user : otherUser;
+  //const isOwnProfile = !id;
 
   const radios = [
     {
-      name: isOwnProfile ? "Your Bulletin" : `${profile?.completeName?.split(" ")[0]}'s Bulletin`,
+      name: isViewingOwnProfile ? "Your Bulletin" : `${profile?.completeName?.split(" ")[0]}'s Bulletin`,
       value: "1",
     },
     {
-      name: isOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Testimonies`,
+      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Testimonies`,
       value: "2",
     },
   ];
@@ -94,6 +96,20 @@ const ProfileBulletin = () => {
                   <Row className={`mb-3`}>
                     <p>{post.content}</p>
                     <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
+                  </Row>
+                  <Row>
+                    <Col className="d-flex justify-content-start">
+                      <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                        {post.likesCount} adores
+                      </Button>
+                      <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                        •
+                      </Button>
+
+                      <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                        {post.comments.length} comments
+                      </Button>
+                    </Col>
                   </Row>
                 </Container>
                 <CommentAndLikeSection postId={post.id} />

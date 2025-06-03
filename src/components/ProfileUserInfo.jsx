@@ -15,7 +15,9 @@ const ProfileUserInfo = () => {
 
   const dispatch = useDispatch();
 
-  const profile = id ? otherUser : user;
+  const isViewingOwnProfile = id === String(user.id);
+
+  const profile = !id || isViewingOwnProfile ? user : otherUser;
 
   useEffect(() => {
     if (id) {
@@ -40,7 +42,7 @@ const ProfileUserInfo = () => {
                   </div>
                   <Image fluid style={{ objectFit: "cover", width: "100%", height: "auto" }} src={profile.profilePictureUrl} />
                 </div>
-                {!id && (
+                {isViewingOwnProfile && (
                   <div className="d-flex justify-content-center mt-3 w-100 gap-2">
                     <Button variant="outline-success" className="flex-fill">
                       Edit profile

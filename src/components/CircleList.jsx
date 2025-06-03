@@ -5,6 +5,8 @@ import { fetchMyCirclesAction, fetchOthersCircle } from "../redux/actions";
 import { useParams } from "react-router-dom";
 
 const CircleList = () => {
+  const user = useSelector((state) => state.user);
+  const otherUser = useSelector((state) => state.otherUser);
   const dispatch = useDispatch();
   const myCircles = useSelector((state) => state.myCircles.myCircles);
   const othersCircle = useSelector((state) => state.othersCircle.othersCircle);
@@ -12,7 +14,11 @@ const CircleList = () => {
 
   const { id } = useParams();
 
-  const circles = id ? othersCircle || [] : myCircles || [];
+  const isViewingOwnProfile = id === String(user.id);
+
+  const profile = !id || isViewingOwnProfile ? user : otherUser;
+
+  const circles = profile ? othersCircle || [] : myCircles || [];
 
   useEffect(() => {
     if (id) {
