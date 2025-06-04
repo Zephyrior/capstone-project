@@ -28,13 +28,28 @@ const circleReducer = (state = initialState, action) => {
       };
 
     case SET_CANCELCIRCLE:
-    case SET_DECLINECIRCLE:
+    case SET_DECLINECIRCLE: {
+      const newCircles = Object.fromEntries(Object.entries(state.circles).filter(([key]) => key !== String(circleId)));
+
+      const newRelationships = Object.fromEntries(Object.entries(state.relationships).filter(([, rel]) => rel.id !== circleId));
+
       return {
         ...state,
-        circles: Object.fromEntries(Object.entries(state.circles).filter(([key]) => key !== String(circleId))),
+        circles: newCircles,
+        relationships: newRelationships,
       };
+    }
 
     case SET_CIRCLERELATIONSHIP:
+      if (!circleRelationship) {
+        const newRelationships = { ...state.relationships };
+        delete newRelationships[`${userId1}_${userId2}`];
+        delete newRelationships[`${userId2}_${userId1}`];
+        return {
+          ...state,
+          relationships: newRelationships,
+        };
+      }
       return {
         ...state,
         relationships: {

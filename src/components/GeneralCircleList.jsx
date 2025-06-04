@@ -50,6 +50,10 @@ const GeneralCircleList = () => {
   useEffect(() => {
     searchedUsers.forEach((user) => {
       const key = `${currentUser.id}-${user.id}`;
+
+      console.log("user.id:", user.id);
+      console.log("currentUser.id:", currentUser.id);
+
       if (user.id !== currentUser.id && !fetchedRelationships.current.has(key)) {
         dispatch(fetchCircleRelationshipAction(currentUser.id, user.id));
         fetchedRelationships.current.add(key);
@@ -57,23 +61,26 @@ const GeneralCircleList = () => {
     });
   }, [searchedUsers, currentUser.id, dispatch]);
 
-  const handleCircleAction = (status, user, circle) => {
+  const handleCircleAction = async (status, user, circle) => {
     switch (status) {
       case "Add Circle":
         dispatch(addCircleAction(user.id));
         break;
       case "Cancel Request":
-        dispatch(cancelCircleAction(circle.id, user.id));
+        dispatch(cancelCircleAction(circle.id));
         break;
       case "Decline Request":
-        dispatch(declineCircleAction(circle.id, user.id));
+        dispatch(declineCircleAction(circle.id));
         break;
       case "Accept Request":
-        dispatch(acceptCircleAction(circle.id, user.id));
+        dispatch(acceptCircleAction(circle.id));
         break;
       default:
         break;
     }
+    await dispatch(fetchCircleRelationshipAction(currentUser.id, user.id));
+    const latestRelationship = circleRelationships[`${currentUser.id}_${user.id}`];
+    console.log("Updated relationship after action:", latestRelationship);
   };
 
   const { name } = useParams();
