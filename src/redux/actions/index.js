@@ -310,7 +310,7 @@ export const toggleAdore = (postId) => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await api.post(`/likes/${postId}`, {
+        const response = await api.post(`/likes/${postId}`, null, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -324,14 +324,115 @@ export const toggleAdore = (postId) => {
   };
 };
 
-/*       api
-        .post(`/likes/${userId}`, {
+export const SET_ADDCIRCLE = "SET_ADDCIRCLE";
+export const setAddCircleAction = (receiverId, addCircle) => ({ type: SET_ADDCIRCLE, payload: { receiverId, addCircle } });
+
+export const addCircleAction = (receiverId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.post(`/circles/addcircle/${receiverId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setAddCircleAction(receiverId, response.data));
+        console.log("Add Circle Response: ", response.data);
+      } catch (error) {
+        console.error("Error adding circle: ", error);
+      }
+    }
+  };
+};
+
+export const SET_ACCEPTCIRCLE = "SET_ACCEPTCIRCLE";
+export const setAcceptCircleAction = (requestId, requestCircle) => ({ type: SET_ACCEPTCIRCLE, payload: { requestId, requestCircle } });
+
+export const acceptCircleAction = (requestId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.post(`/circles/acceptcircle/${requestId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setAcceptCircleAction(requestId, response.data));
+        console.log("Accept Circle Response: ", response.data);
+      } catch (error) {
+        console.error("Error accepting circle: ", error);
+      }
+    }
+  };
+};
+
+export const SET_CANCELCIRCLE = "SET_CANCELCIRCLE";
+export const setCancelCircleAction = (circleId, cancelCircle) => ({ type: SET_CANCELCIRCLE, payload: { circleId, cancelCircle } });
+
+export const cancelCircleAction = (circleId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.delete(`/circles/cancelcircle/${circleId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setCancelCircleAction(circleId, response.data));
+        console.log("Cancel Circle Response: ", response.data);
+      } catch (error) {
+        console.error("Error cancelling circle: ", error);
+      }
+    }
+  };
+};
+
+export const SET_DECLINECIRCLE = "SET_DECLINECIRCLE";
+export const setDeclineCircleAction = (circleId, declineCircle) => ({ type: SET_DECLINECIRCLE, payload: { circleId, declineCircle } });
+
+export const declineCircleAction = (circleId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.delete(`/circles/declinecircle/${circleId}`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setDeclineCircleAction(circleId, response.data));
+        console.log("Decline Circle Response: ", response.data);
+      } catch (error) {
+        console.error("Error declining circle: ", error);
+      }
+    }
+  };
+};
+
+export const SET_CIRCLERELATIONSHIP = "SET_CIRCLERELATIONSHIP";
+export const setCircleRelationshipAction = (userId1, userId2, circleRelationship) => ({
+  type: SET_CIRCLERELATIONSHIP,
+  payload: { userId1, userId2, circleRelationship },
+});
+
+export const fetchCircleRelationshipAction = (userId1, userId2) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/circles/circle/${userId1}/${userId2}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          dispatch(setAdoreAction(response.data));
-          console.log("Adore Response: ", response.data);
+          dispatch(setCircleRelationshipAction(userId1, userId2, response.data));
+          console.log("Circle Relationship response: ", response);
         })
         .catch((error) => {
-          console.error(error);
-        }); */
+          console.error("Error fetching circle relationship: ", error);
+        });
+    }
+  };
+};

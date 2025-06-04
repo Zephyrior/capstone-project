@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import LoginPage from "./components/LoginPage";
 import Home from "./components/Home";
@@ -6,6 +6,16 @@ import Layout from "./components/Layout";
 import ProfilePage from "./components/ProfilePage";
 import WidgetsPage from "./components/WidgetsPage";
 import GeneralCircleList from "./components/GeneralCircleList";
+import React from "react";
+import { setNavigate } from "./services/navigation";
+
+const NavigationSetter = () => {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate]);
+  return null;
+};
 
 function App() {
   return (

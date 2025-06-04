@@ -12,6 +12,7 @@ import searchUserReducer from "../reducers/searchUserReducer.js";
 import searchUserByIdReducer from "../reducers/searchUserByIdReducer.js";
 import toggleAdoreReducer from "../reducers/toggleAdoreReducer.js";
 import othersCircleReducer from "../reducers/othersCircleReducer.js";
+import circlesReducer from "../reducers/circlesReducer.js";
 
 const rootReducer = combineReducers({
   token: tokenReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   searchUserById: searchUserByIdReducer,
   othersCircle: othersCircleReducer,
   toggleAdore: toggleAdoreReducer,
+  circles: circlesReducer,
 });
 
 const store = configureStore({

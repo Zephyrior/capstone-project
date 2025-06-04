@@ -63,7 +63,7 @@ const CreateBulletin = () => {
             <Col xs={12} lg={11} className="ps-1">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicTextArea">
-                  <Form.Control as="textarea" rows={2} placeholder="Share something..." value={content} onChange={(e) => setContent(e.target.value)} />
+                  <Form.Control as="textarea" rows={2} placeholder="Share something..." value={content} onChange={(e) => setContent(e.target.value)} required />
                 </Form.Group>
 
                 <Form.Group controlId="formFile" className="mb-3">

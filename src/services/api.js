@@ -1,4 +1,5 @@
 import axios from "axios";
+import { redirectToLogin } from "./navigation";
 
 const api = axios.create({
   baseURL: "http://localhost:8080/api",
@@ -17,15 +18,15 @@ api.interceptors.request.use(
   }
 );
 
-/* api.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      redirectToLogin();
     }
     return Promise.reject(error);
   }
-); */
+);
 
 export default api;
