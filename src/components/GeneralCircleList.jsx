@@ -64,16 +64,16 @@ const GeneralCircleList = () => {
   const handleCircleAction = async (status, user, circle) => {
     switch (status) {
       case "Add Circle":
-        dispatch(addCircleAction(user.id));
+        await dispatch(addCircleAction(user.id));
         break;
       case "Cancel Request":
-        dispatch(cancelCircleAction(circle.id));
+        await dispatch(cancelCircleAction(circle.id));
         break;
       case "Decline Request":
-        dispatch(declineCircleAction(circle.id));
+        await dispatch(declineCircleAction(circle.id));
         break;
       case "Accept Request":
-        dispatch(acceptCircleAction(circle.id));
+        await dispatch(acceptCircleAction(circle.id));
         break;
       default:
         break;
