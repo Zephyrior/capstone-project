@@ -63,13 +63,13 @@ const GeneralCircleList = () => {
         dispatch(addCircleAction(user.id));
         break;
       case "Cancel Request":
-        dispatch(cancelCircleAction(circle.id));
+        dispatch(cancelCircleAction(circle.id, user.id));
         break;
       case "Decline Request":
-        dispatch(declineCircleAction(circle.id));
+        dispatch(declineCircleAction(circle.id, user.id));
         break;
       case "Accept Request":
-        dispatch(acceptCircleAction(circle.id));
+        dispatch(acceptCircleAction(circle.id, user.id));
         break;
       default:
         break;

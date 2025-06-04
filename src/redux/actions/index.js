@@ -3,6 +3,17 @@ import api from "../../services/api";
 export const SET_TOKEN = "SET_TOKEN";
 export const setTokenAction = (token) => ({ type: SET_TOKEN, payload: token });
 
+const getCurrentUserIdFromToken = () => {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    return JSON.parse(atob(token.split(".")[1])).sub;
+  } catch (e) {
+    console.error("Failed to decode token", e);
+    return null;
+  }
+};
+
 export const SET_USER = "SET_USER";
 export const setUserAction = (user) => ({ type: SET_USER, payload: user });
 
@@ -339,6 +350,11 @@ export const addCircleAction = (receiverId) => {
         });
         dispatch(setAddCircleAction(receiverId, response.data));
         console.log("Add Circle Response: ", response.data);
+
+        const currentUserId = getCurrentUserIdFromToken();
+        if (currentUserId) {
+          dispatch(fetchCircleRelationshipAction(currentUserId, receiverId));
+        }
       } catch (error) {
         console.error("Error adding circle: ", error);
       }
@@ -349,7 +365,7 @@ export const addCircleAction = (receiverId) => {
 export const SET_ACCEPTCIRCLE = "SET_ACCEPTCIRCLE";
 export const setAcceptCircleAction = (requestId, requestCircle) => ({ type: SET_ACCEPTCIRCLE, payload: { requestId, requestCircle } });
 
-export const acceptCircleAction = (requestId) => {
+export const acceptCircleAction = (requestId, requesterId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -361,6 +377,11 @@ export const acceptCircleAction = (requestId) => {
         });
         dispatch(setAcceptCircleAction(requestId, response.data));
         console.log("Accept Circle Response: ", response.data);
+
+        const currentUserId = getCurrentUserIdFromToken();
+        if (currentUserId) {
+          dispatch(fetchCircleRelationshipAction(currentUserId, requesterId));
+        }
       } catch (error) {
         console.error("Error accepting circle: ", error);
       }
@@ -371,7 +392,7 @@ export const acceptCircleAction = (requestId) => {
 export const SET_CANCELCIRCLE = "SET_CANCELCIRCLE";
 export const setCancelCircleAction = (circleId, cancelCircle) => ({ type: SET_CANCELCIRCLE, payload: { circleId, cancelCircle } });
 
-export const cancelCircleAction = (circleId) => {
+export const cancelCircleAction = (circleId, otherUserId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -383,6 +404,11 @@ export const cancelCircleAction = (circleId) => {
         });
         dispatch(setCancelCircleAction(circleId, response.data));
         console.log("Cancel Circle Response: ", response.data);
+
+        const currentUserId = getCurrentUserIdFromToken();
+        if (currentUserId) {
+          dispatch(fetchCircleRelationshipAction(currentUserId, otherUserId));
+        }
       } catch (error) {
         console.error("Error cancelling circle: ", error);
       }
@@ -393,7 +419,7 @@ export const cancelCircleAction = (circleId) => {
 export const SET_DECLINECIRCLE = "SET_DECLINECIRCLE";
 export const setDeclineCircleAction = (circleId, declineCircle) => ({ type: SET_DECLINECIRCLE, payload: { circleId, declineCircle } });
 
-export const declineCircleAction = (circleId) => {
+export const declineCircleAction = (circleId, requesterId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -405,6 +431,11 @@ export const declineCircleAction = (circleId) => {
         });
         dispatch(setDeclineCircleAction(circleId, response.data));
         console.log("Decline Circle Response: ", response.data);
+
+        const currentUserId = getCurrentUserIdFromToken();
+        if (currentUserId) {
+          dispatch(fetchCircleRelationshipAction(currentUserId, requesterId));
+        }
       } catch (error) {
         console.error("Error declining circle: ", error);
       }
