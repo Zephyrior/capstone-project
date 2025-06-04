@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { acceptCircleAction, addCircleAction, cancelCircleAction, declineCircleAction, fetchCircleRelationshipAction, searchUserById } from "../redux/actions";
 import { useEffect, useRef } from "react";
+import Footer from "./footer";
 
 const GeneralCircleList = () => {
   const currentUser = useSelector((state) => state.user);
@@ -191,9 +192,22 @@ const GeneralCircleList = () => {
                             </Col>
                             {currentUser.id !== user.id ? (
                               <Col xs={4} className="d-flex align-items-center">
-                                <Button variant="outline-success" size="sm">
-                                  Add Circle
-                                </Button>
+                                {relationshipStatus === "Add Circle" && (
+                                  <Button variant="outline-success" onClick={() => handleCircleAction("Add Circle", user, relationship)}>
+                                    Add Circle
+                                  </Button>
+                                )}
+                                {relationshipStatus === "Cancel Request" && (
+                                  <Button variant="outline-danger" onClick={() => handleCircleAction("Cancel Request", user, relationship)}>
+                                    Cancel Request
+                                  </Button>
+                                )}
+                                {relationshipStatus === "Respond to request" && (
+                                  <Button variant="outline-warning" onClick={() => handleCircleAction("Accept Request", user, relationship)}>
+                                    Respond to request
+                                  </Button>
+                                )}
+                                {relationshipStatus === "Friends" && <Button variant="outline-success">Friends</Button>}
                               </Col>
                             ) : (
                               <div></div>
@@ -208,6 +222,7 @@ const GeneralCircleList = () => {
             </Col>
           </Row>
         </Container>
+        <Footer />
       </div>
     </>
   );

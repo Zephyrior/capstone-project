@@ -36,7 +36,9 @@ const SmallCircle = () => {
             ))
           ) : (
             <div>
-              <p>You have no small circle. 😢</p>
+              <p className="text-muted" style={{ fontSize: "0.8rem" }}>
+                You have no small circle. 😢
+              </p>
               <Button variant="outline-success" className="border border-0" size="sm">
                 Add Small Circle <PlusCircleFill />
               </Button>

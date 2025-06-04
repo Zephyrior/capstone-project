@@ -1,57 +1,82 @@
-import { useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Container, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyCirclesAction, fetchOthersCircle } from "../redux/actions";
 import { useParams } from "react-router-dom";
 
 const CircleList = () => {
+  const [showAll, setShowAll] = useState(false);
   const user = useSelector((state) => state.user);
-  const otherUser = useSelector((state) => state.otherUser);
+  //const otherUser = useSelector((state) => state.otherUser);
   const dispatch = useDispatch();
   const myCircles = useSelector((state) => state.myCircles.myCircles);
-  const othersCircle = useSelector((state) => state.othersCircle.othersCircle);
+  const othersCircle = useSelector((state) => state.othersCircle.othersCircle.othersCircle);
   console.log("myCircles FE: ", myCircles);
+  console.log("othersCircle FE: ", othersCircle);
 
   const { id } = useParams();
 
-  const isViewingOwnProfile = id === String(user.id);
+  const isViewingOwnProfile = !id || id === String(user?.id);
+  const viewedUserId = isViewingOwnProfile ? String(user?.id) : id;
 
-  const profile = !id || isViewingOwnProfile ? user : otherUser;
-
-  const circles = profile ? othersCircle || [] : myCircles || [];
+  //const profile = isViewingOwnProfile ? user : otherUser;
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchOthersCircle(id));
-    } else {
+    if (!user?.id) return;
+    if (isViewingOwnProfile) {
       dispatch(fetchMyCirclesAction());
+    } else {
+      dispatch(fetchOthersCircle(id));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, user?.id, isViewingOwnProfile]);
 
+  const circles = isViewingOwnProfile ? myCircles || [] : othersCircle || [];
+
+  const displayedCircles = showAll ? circles : circles.slice(0, 6);
+
+  const chunkedCircles = [];
+  for (let i = 0; i < displayedCircles.length; i += 3) {
+    chunkedCircles.push(displayedCircles.slice(i, i + 3));
+  }
   return (
     <>
       <Container>
         <div className="border border-1 rounded-3 p-3 mb-4" style={{ background: "#E5F5E0" }}>
-          <h5>Circles</h5>
+          <h5 className="mb-4">Circles</h5>
           {circles.length > 0 ? (
-            circles.map((circle) => (
-              <div key={circle.id}>
-                <Container fluid>
-                  <Row>
-                    <Col xs={4}>
-                      <Image src={circle.circle.profilePictureUrl} />
-                    </Col>
-                    <Col xs={8}>
-                      <p>
-                        {circle.circle.firstName} {circle.circle.lastName}
-                      </p>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            ))
+            <>
+              {chunkedCircles.map((row, rowIndex) => (
+                <Row key={rowIndex} className="mb-3">
+                  {row.map((circle) => {
+                    const otherPerson = String(circle.requester.id) === viewedUserId ? circle.receiver : circle.requester;
+                    return (
+                      <Col key={circle.id} xs={12} md={4} className="text-center">
+                        <Image
+                          src={otherPerson.profilePictureUrl}
+                          className="rounded-4 mb-2"
+                          width={80}
+                          height={80}
+                          style={{ objectFit: "cover" }}
+                          alt={`${otherPerson.firstName} ${otherPerson.lastName}`}
+                        />
+                        <p style={{ fontWeight: "bold" }}>
+                          {otherPerson.firstName} {otherPerson.lastName}
+                        </p>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              ))}
+              {!showAll && circles.length > 6 && (
+                <div className="text-center">
+                  <Button variant="success" onClick={() => setShowAll(true)}>
+                    View All
+                  </Button>
+                </div>
+              )}
+            </>
           ) : (
-            <p>You don't have anyone in your circle. 😔</p>
+            <p className="text-muted">You don't have anyone in your circle. 😔</p>
           )}
         </div>
       </Container>

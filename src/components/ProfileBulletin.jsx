@@ -14,6 +14,9 @@ const ProfileBulletin = () => {
   const { id } = useParams();
   const isViewingOwnProfile = id === String(user.id);
 
+  const viewedUserId = id || user.id;
+  const testimonies = bulletinPosts?.content.filter((post) => post.profileOwnerId === Number(viewedUserId)) || [];
+
   const profile = !id || isViewingOwnProfile ? user : otherUser;
   //const isOwnProfile = !id;
 
@@ -23,7 +26,7 @@ const ProfileBulletin = () => {
       value: "1",
     },
     {
-      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Testimonies`,
+      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Testimonies (${testimonies.length})`,
       value: "2",
     },
   ];

@@ -73,8 +73,10 @@ const CommentAndLikeSection = ({ postId }) => {
             {showComments && (
               <Col>
                 {bulletinComments.length === 0 ? (
-                  <div className="border border-1 rounded-3 my-2">
-                    <p className="mt-3 ms-3">No comments yet. Say something nice! 💖</p>
+                  <div className="">
+                    <p className="mt-3 ms-3 mb-1 text-muted" style={{ fontSize: "0.8rem" }}>
+                      No comments yet. Say something nice! 💖
+                    </p>
                   </div>
                 ) : (
                   bulletinComments.map((comment) => (

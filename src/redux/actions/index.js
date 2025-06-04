@@ -169,9 +169,9 @@ export const fetchBulletinPostsAction = () => {
 };
 
 export const SET_CREATEBULLETIN = "SET_CREATEBULLETIN";
-export const setCreateBulletinAction = (createBulletin) => ({ type: SET_CREATEBULLETIN, payload: createBulletin });
+export const setCreateBulletinAction = (createBulletin, profileOwnerId) => ({ type: SET_CREATEBULLETIN, payload: createBulletin, profileOwnerId });
 
-export const fetchCreateBulletinAction = (content, imageFile) => {
+export const fetchCreateBulletinAction = (content, imageFile, profileOwnerId) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -192,7 +192,7 @@ export const fetchCreateBulletinAction = (content, imageFile) => {
         }
         const postResponse = await api.post(
           "/posts",
-          { content, mediaUrl },
+          { content, mediaUrl, profileOwnerId },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -305,6 +305,7 @@ export const searchUserById = (userId) => {
         .then((response) => {
           dispatch(setSearchUserById(response.data));
           console.log("Search User By Id: ", response.data);
+          return { payload: response.data };
         })
         .catch((error) => {
           console.error(error);

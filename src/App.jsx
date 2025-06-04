@@ -8,6 +8,7 @@ import WidgetsPage from "./components/WidgetsPage";
 import GeneralCircleList from "./components/GeneralCircleList";
 import React from "react";
 import { setNavigate } from "./services/navigation";
+import EditProfile from "./components/EditProfile";
 
 const NavigationSetter = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ function App() {
             <Route path="/widgets" element={<WidgetsPage />} />
             <Route path="/profile/:id" element={<ProfilePage />} />
             <Route path="/search/:name" element={<GeneralCircleList />} />
+            <Route path="/editprofile" element={<EditProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>

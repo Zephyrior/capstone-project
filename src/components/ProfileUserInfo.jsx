@@ -54,8 +54,11 @@ const ProfileUserInfo = () => {
                 )}
               </Col>
               <Col xs={12} md={6}>
-                <div className="border p-3 rounded shadow-sm mb-1" style={{ background: "#fff" }}>
+                <div className="border p-3 rounded shadow-sm mb-1 d-flex justify-content-between" style={{ background: "#fff" }}>
                   {profile.shoutOut ? profile.shoutOut : "Speak your mind! 💭"}
+                  <Button variant="link" className="text-muted" style={{ fontSize: "0.7rem", textDecoration: "none" }}>
+                    [Edit]
+                  </Button>
                 </div>
                 <div className="p-3">
                   <h5>{profile.completeName}</h5>

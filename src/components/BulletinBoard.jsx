@@ -11,7 +11,8 @@ const BulletinBoard = () => {
   const dispatch = useDispatch();
   const bulletinPosts = useSelector((state) => state.bulletinPosts.bulletinPosts);
   const posts = bulletinPosts?.content || [];
-  console.log("posts: ", posts);
+  //const posts = bulletinPosts?.content.filter((post) => post.profileOwnerId === null) || [];
+  console.log("posts FE: ", posts);
 
   useEffect(() => {
     dispatch(fetchBulletinPostsAction());
@@ -20,8 +21,8 @@ const BulletinBoard = () => {
   return (
     <>
       <div className="border border-1 rounded-3 p-3" style={{ background: "#E5F5E0" }}>
-        <h3 className="mb-4">Your Bulletin Board 📌</h3>
-        {posts.length === 0 ? <p>No posts yet. 😢</p> : posts.map((post) => <BulletinPost key={post.id} post={post} />)}
+        <h3 className="mb-4">Bulletin Board 📌</h3>
+        {posts.length === 0 ? <p className="text-muted">No posts yet. 😢</p> : posts.map((post) => <BulletinPost key={post.id} post={post} />)}
       </div>
     </>
   );

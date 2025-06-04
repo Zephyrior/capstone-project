@@ -2,7 +2,7 @@ import { Component, useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Form, FormControl, Image, Row } from "react-bootstrap";
 import { ImageFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchBulletinPostsAction, fetchCreateBulletinAction } from "../redux/actions";
 
 const CreateBulletin = () => {
@@ -10,6 +10,9 @@ const CreateBulletin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
+  const { id } = useParams();
+
+  const profileOwnerId = id === user.id ? null : id;
 
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -38,7 +41,7 @@ const CreateBulletin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(fetchCreateBulletinAction(content, imageFile));
+    await dispatch(fetchCreateBulletinAction(content, imageFile, profileOwnerId));
     dispatch(fetchBulletinPostsAction());
 
     setContent("");

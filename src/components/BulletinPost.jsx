@@ -1,5 +1,5 @@
 import { Button, Col, Container, Dropdown, Image, Row } from "react-bootstrap";
-import { ThreeDots } from "react-bootstrap-icons";
+import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -9,6 +9,9 @@ const BulletinPost = ({ post }) => {
   const hide = location.pathname === "/Profile";
   const userId = useSelector((state) => state.user.id);
   const authorId = post.authorId;
+
+  console.log("Post from bulletin post: ", post);
+
   return (
     <>
       <div key={post.id} className="border p-3 rounded shadow-sm mb-3 position-relative" style={{ background: "#fff" }}>
@@ -22,9 +25,15 @@ const BulletinPost = ({ post }) => {
             </Col>
             <Col xs={1} className={!hide ? "d-none" : ""}></Col>
             <Col xs={8} className="ps-0">
-              <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
+              <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 pe-1 py-0">
                 {post.authorFullName}
-              </Button>
+              </Button>{" "}
+              {post.profileOwnerFullName && <CaretRightFill />}
+              {post.profileOwnerFullName && (
+                <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-2 py-0">
+                  {post.profileOwnerFullName}
+                </Button>
+              )}
               <p style={{ fontSize: "10px" }} className="mb-0">
                 {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
               </p>

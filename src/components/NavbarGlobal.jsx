@@ -88,13 +88,13 @@ function NavbarGlobal() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/Profile")}>
+              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/profile")}>
                 View Profile
               </Dropdown.Item>
-              <Dropdown.Item as="button" style={{ background: "none" }}>
+              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/editprofile")}>
                 Edit Profile
               </Dropdown.Item>
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/Widgets")} className="d-md-none">
+              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/widgets")} className="d-md-none">
                 Your Widgets
               </Dropdown.Item>
               <Dropdown.Item as="button" style={{ background: "none" }} onClick={logOut}>
