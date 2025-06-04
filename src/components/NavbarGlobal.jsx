@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ToggleSearchBar from "./ToggleSearchBar";
 import { Search } from "react-bootstrap-icons";
-import { useState } from "react";
-import { searchUserAction } from "../redux/actions";
+import { useEffect, useState } from "react";
+import { fetchUserAction, searchUserAction } from "../redux/actions";
 
 function NavbarGlobal() {
   const user = useSelector((state) => state.user);
@@ -33,6 +33,10 @@ function NavbarGlobal() {
   const toggleLogo = () => {
     setShowLogo((prev) => !prev);
   };
+
+  useEffect(() => {
+    dispatch(fetchUserAction());
+  }, [dispatch]);
   return (
     <Navbar expand="lg" style={{ background: "#E5F5E0" }} className="px-3">
       <Container fluid>
