@@ -26,6 +26,7 @@ const ProfileUserInfo = () => {
       dispatch(fetchProfileViewsAction(user.id));
     }
   }, [dispatch, id, user.id]);
+
   return (
     <>
       <Container>
@@ -42,6 +43,12 @@ const ProfileUserInfo = () => {
                   </div>
                   <Image fluid style={{ objectFit: "cover", width: "100%", height: "auto" }} src={profile.profilePictureUrl} />
                 </div>
+                <div className="border p-3 rounded shadow-sm mb-1 mt-3 d-lg-none d-xs-flex justify-content-between" style={{ background: "#fff" }}>
+                  {profile.shoutOut ? profile.shoutOut : "Speak your mind! 💭"}
+                  <Button variant="link" className="text-muted" style={{ fontSize: "0.7rem", textDecoration: "none" }}>
+                    [Edit]
+                  </Button>
+                </div>
                 {isViewingOwnProfile && (
                   <div className="d-flex justify-content-center mt-3 w-100 gap-2">
                     <Button variant="outline-success" className="flex-fill">
@@ -54,27 +61,48 @@ const ProfileUserInfo = () => {
                 )}
               </Col>
               <Col xs={12} md={6}>
-                <div className="border p-3 rounded shadow-sm mb-1 d-flex justify-content-between" style={{ background: "#fff" }}>
+                <div className="border p-3 rounded shadow-sm mb-1 d-none d-lg-flex justify-content-between" style={{ background: "#fff" }}>
                   {profile.shoutOut ? profile.shoutOut : "Speak your mind! 💭"}
                   <Button variant="link" className="text-muted" style={{ fontSize: "0.7rem", textDecoration: "none" }}>
                     [Edit]
                   </Button>
                 </div>
                 <div className="p-3">
-                  <h5>{profile.completeName}</h5>
+                  <h4 className="mb-3 mt-2">
+                    {profile.completeName}{" "}
+                    {profile.nickName && (
+                      <span className="text-muted" style={{ fontSize: "1rem" }}>
+                        aka {profile.nickName}
+                      </span>
+                    )}
+                  </h4>
+                  {profile.location && (
+                    <p className="mb-2">
+                      {" "}
+                      <span style={{ fontWeight: "bold" }}>📍 Location:</span> {profile.location}
+                    </p>
+                  )}
+                  {profile.hobby && (
+                    <p className="mb-2">
+                      {" "}
+                      <span style={{ fontWeight: "bold" }}>⛹ Hobbies:</span> {profile.location}
+                    </p>
+                  )}
                   <p className="mb-2">
                     {" "}
-                    <span style={{ textDecoration: "underline" }}>Member since:</span> {profile.createdAt}
+                    <span style={{ fontWeight: "bold" }}>📆 Member since:</span> {profile.createdAt}
                   </p>
                   <p className="mb-2">
-                    <span style={{ textDecoration: "underline" }}>Profile viewed:</span>{" "}
+                    <span style={{ fontWeight: "bold" }}>🥰 Profile viewed:</span>{" "}
                     {profileView.length === 0 ? "You have no views" : `${profileView.length} times`}
                   </p>
                   <p className="mb-2">
-                    <span style={{ textDecoration: "underline" }}>Bio:</span>
+                    <span style={{ fontWeight: "bold" }}>🌱 Bio:</span>
                     <br />
-                    <span className="ms-2">{profile.bio ? profile.bio : "Tell something about yourself."}</span>
                   </p>
+                  <div className=" border p-3 rounded shadow-sm ms-4" style={{ background: "#fff" }}>
+                    {profile.bio ? profile.bio : "Tell something about yourself."}
+                  </div>
                 </div>
               </Col>
             </Row>

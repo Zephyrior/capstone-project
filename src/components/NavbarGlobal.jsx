@@ -1,6 +1,6 @@
 import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ToggleSearchBar from "./ToggleSearchBar";
 import { Search } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
@@ -13,6 +13,13 @@ function NavbarGlobal() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const isProfilePage = location.pathname.includes("/profile");
+  const params = useParams();
+  const isVisitingOtherProfile = params.userId && params.userId !== user.id;
+  const isEditProfilePage = location.pathname.includes("/editprofile");
+  const isWidgetPage = location.pathname.includes("/widgets");
 
   const [search, setSearch] = useState("");
 
@@ -88,15 +95,26 @@ function NavbarGlobal() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/profile")}>
-                View Profile
-              </Dropdown.Item>
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/editprofile")}>
-                Edit Profile
-              </Dropdown.Item>
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/widgets")} className="d-md-none">
-                Your Widgets
-              </Dropdown.Item>
+              {isProfilePage && !isVisitingOtherProfile && (
+                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/home")}>
+                  Home
+                </Dropdown.Item>
+              )}
+              {!isProfilePage && (
+                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/profile")}>
+                  View Profile
+                </Dropdown.Item>
+              )}
+              {!isEditProfilePage && (
+                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/editprofile")}>
+                  Edit Profile
+                </Dropdown.Item>
+              )}
+              {!isWidgetPage && (
+                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/widgets")} className="d-md-none">
+                  Your Widgets
+                </Dropdown.Item>
+              )}
               <Dropdown.Item as="button" style={{ background: "none" }} onClick={logOut}>
                 Logout
               </Dropdown.Item>
