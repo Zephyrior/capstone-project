@@ -283,7 +283,7 @@ const EditProfile = () => {
           ) : (
             <p>
               Session expired.{" "}
-              <Button as="span" variant="link" style={{ textDecoration: "none", verticalAlign: "baseline" }} className="p-0" onClick={() => navigate("/Login")}>
+              <Button as="span" variant="link" style={{ textDecoration: "none", verticalAlign: "baseline" }} className="p-0" onClick={() => navigate("/")}>
                 Login to continue.
               </Button>
             </p>

@@ -6,8 +6,8 @@ export const setNavigate = (navFn) => {
 
 export const redirectToLogin = () => {
   if (navigateFunction) {
-    navigateFunction("/login");
+    navigateFunction("/");
   } else {
-    window.location.href = "/login";
+    window.location.href = "/";
   }
 };

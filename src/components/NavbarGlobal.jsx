@@ -34,7 +34,7 @@ function NavbarGlobal() {
   const logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("spotifyPlayListId");
-    navigate("/Login");
+    navigate("/");
   };
 
   const toggleLogo = () => {
