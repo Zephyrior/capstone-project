@@ -30,7 +30,7 @@ const ProfilePage = () => {
       <Container fluid>
         {token ? (
           <Row className="mx-auto">
-            <Col md={7}>
+            <Col md={7} className="px-0">
               <ProfileUserInfo />
               <div className="d-block d-md-none">
                 <CircleList />
@@ -43,7 +43,7 @@ const ProfilePage = () => {
                 <Footer />
               </div>
             </Col>
-            <Col md={5} lg={{ span: 4, offset: 1 }} className="d-none d-md-block">
+            <Col md={5} lg={{ span: 4, offset: 1 }} className="d-none d-md-block px-0">
               <CircleList />
               <Container className="mb-4">
                 <BulletinBoard />
