@@ -1,5 +1,5 @@
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
-import Footer from "./footer";
+import Footer from "./Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import api from "../services/api";

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { acceptCircleAction, addCircleAction, cancelCircleAction, declineCircleAction, fetchCircleRelationshipAction, searchUserById } from "../redux/actions";
 import { useEffect, useRef } from "react";
-import Footer from "./footer";
+import Footer from "./Footer";
 
 const GeneralCircleList = () => {
   const currentUser = useSelector((state) => state.user);

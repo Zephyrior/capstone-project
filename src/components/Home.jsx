@@ -2,7 +2,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import UserInfo from "./UserInfo";
 import WidgetsPage from "./WidgetsPage";
 import SmallCircle from "./SmallCircle";
-import Footer from "./footer";
+import Footer from "./Footer";
 import CreateBulletin from "./CreateBulletin";
 import BulletinBoard from "./BulletinBoard";
 import { useNavigate } from "react-router-dom";
