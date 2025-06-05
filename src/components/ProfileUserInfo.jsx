@@ -85,7 +85,7 @@ const ProfileUserInfo = () => {
                   {profile.hobby && (
                     <p className="mb-2">
                       {" "}
-                      <span style={{ fontWeight: "bold" }}>⛹ Hobbies:</span> {profile.location}
+                      <span style={{ fontWeight: "bold" }}>⛹ Hobbies:</span> {profile.hobby}
                     </p>
                   )}
                   <p className="mb-2">
