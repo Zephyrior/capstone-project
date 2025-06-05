@@ -4,7 +4,7 @@ import ProfileBulletin from "./ProfileBulletin";
 import CircleList from "./CircleList";
 import BulletinBoard from "./BulletinBoard";
 import WidgetsPage from "./WidgetsPage";
-import Footer from "./Footer";
+import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import CreateBulletin from "./CreateBulletin";
 /* import { useDispatch, useSelector } from "react-redux";
