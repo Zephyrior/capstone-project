@@ -2,7 +2,7 @@ import { Button, Container } from "react-bootstrap";
 import ReminderWidget from "./ReminderWidget";
 import SpotifyWidget from "./SpotifyWidget";
 import { PlusCircleFill } from "react-bootstrap-icons";
-import Footer from "./footer";
+import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
 const WidgetsPage = () => {
