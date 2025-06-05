@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 const BulletinPost = ({ post }) => {
   const location = useLocation();
-  const hide = location.pathname === "/Profile";
+  const hide = location.pathname === "/profile";
   const userId = useSelector((state) => state.user.id);
   const authorId = post.authorId;
 

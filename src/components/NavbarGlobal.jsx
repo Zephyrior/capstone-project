@@ -47,11 +47,11 @@ function NavbarGlobal() {
   return (
     <Navbar expand="lg" style={{ background: "#E5F5E0" }} className="px-3">
       <Container fluid>
-        <Navbar.Brand href="/Home" className="d-none d-md-block">
+        <Navbar.Brand href="/home" className="d-none d-md-block">
           Circle
         </Navbar.Brand>
         {showLogo && (
-          <Navbar.Brand href="/Home" className="d-block d-md-none">
+          <Navbar.Brand href="/home" className="d-block d-md-none">
             C
           </Navbar.Brand>
         )}

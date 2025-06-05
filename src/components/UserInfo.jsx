@@ -49,7 +49,7 @@ const UserInfo = () => {
               <p className="mt-2 mb-0" style={{ fontWeight: "bold" }}>
                 {user.completeName}
               </p>
-              <Button variant="link" style={{ textDecoration: "none", color: "#198754" }} size="sm" onClick={() => navigate("/Profile")}>
+              <Button variant="link" style={{ textDecoration: "none", color: "#198754" }} size="sm" onClick={() => navigate("/profile")}>
                 View your profile
               </Button>
             </div>

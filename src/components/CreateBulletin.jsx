@@ -59,7 +59,7 @@ const CreateBulletin = () => {
         <Container fluid>
           <Row>
             <Col lg={1} className="px-0 d-none d-lg-block">
-              <Button variant="link" onClick={() => navigate("/Profile")} className="p-0 mt-2 me-1">
+              <Button variant="link" onClick={() => navigate("/profile")} className="p-0 mt-2 me-1">
                 <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "50px", height: "auto", objectFit: "cover" }} />
               </Button>
             </Col>

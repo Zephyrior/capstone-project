@@ -42,7 +42,7 @@ const Login = () => {
       localStorage.setItem("token", response.data.token);
       console.log(response);
       setToken(response.data.token);
-      navigate(isLogin ? "/Home" : "/");
+      navigate(isLogin ? "/home" : "/");
       setIsLogin(true);
     } catch (error) {
       const errorMessage = error.response?.data || "Error";

@@ -14,7 +14,7 @@ const CommentAndLikeSection = ({ postId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const hide = location.pathname === "/Profile";
+  const hide = location.pathname === "/profile";
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
 
@@ -139,7 +139,7 @@ const CommentAndLikeSection = ({ postId }) => {
           </Row>
           <Row className="mt-4">
             <Col lg={1} className={`${hide ? "d-none" : "px-0 d-none d-lg-block "}`}>
-              <Button variant="link" onClick={() => navigate("/Profile")} className="p-0 ms-2 me-1">
+              <Button variant="link" onClick={() => navigate("/profile")} className="p-0 ms-2 me-1">
                 <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "35px", height: "auto", objectFit: "cover" }} />
               </Button>
             </Col>
