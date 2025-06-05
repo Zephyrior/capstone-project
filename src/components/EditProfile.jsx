@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { fetchUserAction } from "../redux/actions";
+import imageCompression from "browser-image-compression";
 
 const EditProfile = () => {
   const user = useSelector((state) => state.user);
@@ -82,9 +83,16 @@ const EditProfile = () => {
     }
     try {
       let mediaUrl = user.profilePictureUrl;
+
       if (profilePictureFile) {
+        const compressedFile = await imageCompression(profilePictureFile, {
+          maxSizeMB: 1.5,
+          maxWidthOrHeight: 800,
+          useWebWorker: true,
+        });
+
         const formData = new FormData();
-        formData.append("file", profilePictureFile);
+        formData.append("file", compressedFile);
 
         const uploadResponse = await api.post("/images/uploadme", formData, {
           headers: {
@@ -92,6 +100,7 @@ const EditProfile = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         mediaUrl = uploadResponse.data.url;
       }
       const postResponse = await api.put(

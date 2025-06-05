@@ -1,4 +1,5 @@
 import api from "../../services/api";
+import imageCompression from "browser-image-compression";
 
 export const SET_TOKEN = "SET_TOKEN";
 export const setTokenAction = (token) => ({ type: SET_TOKEN, payload: token });
@@ -179,8 +180,14 @@ export const fetchCreateBulletinAction = (content, imageFile, profileOwnerId) =>
         let mediaUrl = null;
 
         if (imageFile) {
+          const compressedImage = await imageCompression(imageFile, {
+            maxSizeMB: 1.5,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          });
+
           const formData = new FormData();
-          formData.append("file", imageFile);
+          formData.append("file", compressedImage);
 
           const uploadResponse = await api.post("/images/uploadme", formData, {
             headers: {
