@@ -68,28 +68,56 @@ function NavbarGlobal() {
         </div>
         {token && (
           <Dropdown align="end">
-            <Dropdown.Toggle as={Button} className="p-0 bg-transparent border-0 d-none d-sm-block me-2">
+            <Dropdown.Toggle
+              as={Button}
+              className="p-0 bg-transparent border-0 d-none d-sm-block me-2"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                overflow: "hidden",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Image
                 src={user.profilePictureUrl}
                 roundedCircle
                 style={{
                   width: "100%",
-                  maxWidth: "50px",
-                  height: "auto",
+                  display: "block",
+                  height: "100%",
                   objectFit: "cover",
+                  borderRadius: "50%",
                 }}
               />
             </Dropdown.Toggle>
 
-            <Dropdown.Toggle as={Button} className="p-0 bg-transparent border-0 d-block d-sm-none">
+            <Dropdown.Toggle
+              as={Button}
+              className="p-0 bg-transparent border-0 d-block d-sm-none"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                overflow: "hidden",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Image
                 src={user.profilePictureUrl}
                 roundedCircle
                 style={{
                   width: "100%",
-                  maxWidth: "40px",
-                  height: "auto",
+                  display: "block",
+                  height: "100%",
                   objectFit: "cover",
+                  borderRadius: "50%",
                 }}
               />
             </Dropdown.Toggle>
