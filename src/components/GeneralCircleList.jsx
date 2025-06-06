@@ -115,17 +115,22 @@ const GeneralCircleList = () => {
                           </div>
                           <Row className="d-none d-lg-flex">
                             <Col xs={2}>
-                              <Image
-                                src={user.profilePictureUrl}
-                                className="rounded-4"
-                                width={64}
-                                height={64}
-                                style={{ objectFit: "cover" }}
-                                alt={user.completeName}
+                              <Button
+                                variant="link"
+                                style={{ textDecoration: "none" }}
                                 onClick={() => {
                                   handleClick(user.id);
                                 }}
-                              />
+                              >
+                                <Image
+                                  src={user.profilePictureUrl}
+                                  className="rounded-4"
+                                  width={64}
+                                  height={64}
+                                  style={{ objectFit: "cover" }}
+                                  alt={user.completeName}
+                                />
+                              </Button>
                             </Col>
                             <Col xs={7}>
                               <Button
