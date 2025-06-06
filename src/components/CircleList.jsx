@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyCirclesAction, fetchOthersCircle } from "../redux/actions";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CircleList = () => {
   const [showAll, setShowAll] = useState(false);
@@ -11,8 +11,10 @@ const CircleList = () => {
   const dispatch = useDispatch();
   const myCircles = useSelector((state) => state.myCircles.myCircles);
   const othersCircle = useSelector((state) => state.othersCircle.othersCircle.othersCircle);
+  //const smallCircle = useSelector((state) => state.mySmallCircle.mySmallCircle);
   console.log("myCircles FE: ", myCircles);
   console.log("othersCircle FE: ", othersCircle);
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -50,18 +52,23 @@ const CircleList = () => {
                   {row.map((circle) => {
                     const otherPerson = String(circle.requester.id) === viewedUserId ? circle.receiver : circle.requester;
                     return (
-                      <Col key={circle.id} xs={12} md={4} className="text-center">
-                        <Image
-                          src={otherPerson.profilePictureUrl}
-                          className="rounded-4 mb-2"
-                          width={80}
-                          height={80}
-                          style={{ objectFit: "cover" }}
-                          alt={`${otherPerson.firstName} ${otherPerson.lastName}`}
-                        />
-                        <p style={{ fontWeight: "bold" }}>
-                          {otherPerson.firstName} {otherPerson.lastName}
-                        </p>
+                      <Col key={circle.id} xs={4} className="text-center">
+                        <Button variant="link" style={{ textDecoration: "none" }} onClick={() => navigate(`/profile/${otherPerson.id}`)}>
+                          {" "}
+                          <Image
+                            src={otherPerson.profilePictureUrl}
+                            className="rounded-4 mb-2"
+                            width={80}
+                            height={80}
+                            style={{ objectFit: "cover" }}
+                            alt={`${otherPerson.firstName} ${otherPerson.lastName}`}
+                          />
+                        </Button>
+                        <Button variant="link" style={{ textDecoration: "none", color: "black" }} onClick={() => navigate(`/profile/${otherPerson.id}`)}>
+                          <p style={{ fontWeight: "bold" }}>
+                            {otherPerson.firstName} {otherPerson.lastName}
+                          </p>
+                        </Button>
                       </Col>
                     );
                   })}

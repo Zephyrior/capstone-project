@@ -2,13 +2,16 @@ import { Button, Col, Container, Dropdown, Image, Row } from "react-bootstrap";
 import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BulletinPost = ({ post }) => {
   const location = useLocation();
   const hide = location.pathname === "/profile";
   const userId = useSelector((state) => state.user.id);
   const authorId = post.authorId;
+  const navigate = useNavigate();
+
+  //const goToUserProfile =
 
   console.log("Post from bulletin post: ", post);
 
@@ -25,12 +28,22 @@ const BulletinPost = ({ post }) => {
             </Col>
             <Col xs={1} className={!hide ? "d-none" : ""}></Col>
             <Col xs={8} className="ps-0">
-              <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 pe-1 py-0">
+              <Button
+                variant="link"
+                style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
+                className="ps-0 pe-1 py-0"
+                onClick={() => navigate("/profile")}
+              >
                 {post.authorFullName}
               </Button>{" "}
               {post.profileOwnerFullName && <CaretRightFill />}
               {post.profileOwnerFullName && (
-                <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-2 py-0">
+                <Button
+                  variant="link"
+                  style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
+                  className="ps-2 py-0"
+                  onClick={() => navigate(`/profile/${post.profileOwnerId}`)}
+                >
                   {post.profileOwnerFullName}
                 </Button>
               )}

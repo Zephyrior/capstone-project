@@ -122,6 +122,9 @@ const GeneralCircleList = () => {
                                 height={64}
                                 style={{ objectFit: "cover" }}
                                 alt={user.completeName}
+                                onClick={() => {
+                                  handleClick(user.id);
+                                }}
                               />
                             </Col>
                             <Col xs={7}>
