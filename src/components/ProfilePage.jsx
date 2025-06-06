@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Container fluid>
+      <Container fluid className="px-0">
         {token ? (
           <Row className="mx-auto">
             <Col md={7} className="px-0">

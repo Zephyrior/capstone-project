@@ -11,6 +11,7 @@ const Login = () => {
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = "";
   const [error, setError] = useState("");
 
   const [token, setToken] = useState("");
@@ -55,6 +56,11 @@ const Login = () => {
       return;
     }
 
+    if (!isLogin && password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     try {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
       const response = await api.post(`${apiUrl}${endpoint}`, isLogin ? { email, password } : { email, password, firstName, lastName, birthDate });
@@ -80,7 +86,7 @@ const Login = () => {
 
   useEffect(() => {
     setError("");
-  }, [firstName, lastName, birthDate, email, password]);
+  }, [firstName, lastName, birthDate, email, password, confirmPassword]);
 
   return (
     <>
@@ -125,11 +131,23 @@ const Login = () => {
               />
               {error && <div style={{ color: "red", marginTop: "10px" }}>{error}</div>}
             </Form.Group>
+            {!isLogin && (
+              <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            )}
 
             <Button variant="outline-success" className="ms-2" type="submit">
               {isLogin ? "Login" : "Register"}
             </Button>
-            <Button variant="link" onClick={() => setIsLogin(!isLogin)}>
+            <Button variant="link" size="sm" onClick={() => setIsLogin(!isLogin)}>
               {isLogin ? "Create an account" : "Already registered? Login"}
             </Button>
           </Form>
