@@ -2,8 +2,8 @@ import axios from "axios";
 import { redirectToLogin } from "./navigation";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-  //baseURL: "https://circle-xxxn.onrender.com/api",
+  //baseURL: "http://localhost:8080/api",
+  baseURL: "https://circle-xxxn.onrender.com/api",
 });
 
 api.interceptors.request.use(
