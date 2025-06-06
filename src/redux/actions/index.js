@@ -148,23 +148,27 @@ export const fetchOthersCircle = (userId) => {
 };
 
 export const SET_BULLETINPOSTS = "SET_BULLETINPOSTS";
+export const APPEND_BULLETINPOSTS = "APPEND_BULLETINPOSTS";
+export const appendBulletinPostsAction = (bulletinPosts) => ({ type: APPEND_BULLETINPOSTS, payload: bulletinPosts });
 export const setBulletinPostsAction = (bulletinPosts) => ({ type: SET_BULLETINPOSTS, payload: bulletinPosts });
 
-export const fetchBulletinPostsAction = () => {
+export const fetchBulletinPostsAction = (page = 0, append = false) => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
     if (token) {
-      api
-        .get("posts?page=0&size=10&createdAt=createdAt", {
+      try {
+        const response = await api.get(`posts?page=${page}&size=10&sort=createdAt,desc`, {
           headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          dispatch(setBulletinPostsAction(response.data));
-          console.log("Bulletin Posts response: ", response.data);
-        })
-        .catch((error) => {
-          console.error(error);
         });
+        console.log("Fetched bulletin posts response: ", response.data);
+        if (append) {
+          dispatch(appendBulletinPostsAction(response.data));
+        } else {
+          dispatch(setBulletinPostsAction(response.data));
+        }
+      } catch (error) {
+        console.error("Failed to fetch bulletin posts:", error);
+      }
     }
   };
 };

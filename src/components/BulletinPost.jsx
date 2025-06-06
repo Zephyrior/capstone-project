@@ -14,7 +14,7 @@ const BulletinPost = ({ post }) => {
 
   return (
     <>
-      <div key={post.id} className="border p-3 rounded shadow-sm mb-3 position-relative" style={{ background: "#fff" }}>
+      <div key={post.id} className="border p-3 rounded shadow-sm mb-3 position-relative post-wrapper" style={{ background: "#fff", overflow: "visible" }}>
         <Container>
           <div className="pin-icon position-absolute" style={{ top: "-20px", right: "-15px", fontSize: "2rem" }}>
             📌
