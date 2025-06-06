@@ -49,12 +49,29 @@ const CommentAndLikeSection = ({ postId }) => {
               <Button variant="Light" size="sm" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={toggleAdoreButton}>
                 {likedByCurrentUser ? (
                   <div>
-                    <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
-                    <Stars style={{ color: "orange" }} />
+                    {!hide ? (
+                      <>
+                        {" "}
+                        <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
+                        <Stars style={{ color: "orange" }} />
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        <span style={{ color: "orange" }}>Adored </span>{" "}
+                      </>
+                    )}
                   </div>
                 ) : (
                   <div>
-                    <Stars /> Adore <Stars />
+                    {!hide ? (
+                      <>
+                        {" "}
+                        <Stars /> Adore <Stars />{" "}
+                      </>
+                    ) : (
+                      <> Adore </>
+                    )}
                   </div>
                 )}
               </Button>
