@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Footer from "./Footer";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -83,8 +84,8 @@ const Login = () => {
 
   return (
     <>
-      <Container fluid style={{ background: "#E5F5E0" }} className="px-0 w-100 vh-100 border border start-5">
-        <Container className="p-5">
+      <Container fluid style={{ background: "#E5F5E0" }} className="px-0 d-flex justify-content-between vh-100 border border start-5">
+        <Container className="p-5 mt-5">
           <Form className="border border-1 rounded p-3" onSubmit={handleSubmit}>
             <h2 className="ms-2"> {isLogin ? "Login" : "Register"}</h2>
             {!isLogin && (
@@ -133,6 +134,7 @@ const Login = () => {
             </Button>
           </Form>
         </Container>
+        <Footer />
       </Container>
     </>
   );
