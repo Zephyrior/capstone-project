@@ -222,7 +222,6 @@ const EditProfile = () => {
                           placeholder="Endearment your friends call you. 😌"
                           value={nickName}
                           onChange={(e) => setNickName(e.target.value)}
-                          required
                         />
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="formBasicBirthday">
