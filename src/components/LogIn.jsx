@@ -15,6 +15,24 @@ const Login = () => {
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
+  const sendEmail = async (to, fullName) => {
+    console.log("Sending email to:", to);
+    try {
+      const response = await api.post(
+        "/emails/registration",
+        { to, fullName },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error in sending email ", error);
+    }
+  };
+
   const isAtLeast18 = (dateString) => {
     const today = new Date();
     const birth = new Date(dateString);
@@ -44,6 +62,9 @@ const Login = () => {
       setToken(response.data.token);
       navigate(isLogin ? "/home" : "/");
       setIsLogin(true);
+      {
+        !isLogin && sendEmail(email, `${firstName}  ${lastName}`);
+      }
     } catch (error) {
       const errorMessage = error.response?.data || "Error";
       setError(errorMessage);

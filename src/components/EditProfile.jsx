@@ -57,6 +57,26 @@ const EditProfile = () => {
     return age > 18 || (age === 18 && (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)));
   };
 
+  const sendEmail = async (to, fullName) => {
+    console.log("Sending email to:", to);
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.post(
+        "/emails/update",
+        { to, fullName },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error in sending email ", error);
+    }
+  };
+
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
   };
@@ -116,6 +136,7 @@ const EditProfile = () => {
       dispatch(fetchUserAction());
       setSuccessMessage("Profile updated successfully!");
       setTimeout(() => setSuccessMessage(""), 4000);
+      sendEmail(email, `${firstName}  ${lastName}`);
     } catch (error) {
       console.error("Error editing profile: ", error);
     }
