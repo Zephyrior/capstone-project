@@ -14,7 +14,7 @@ const CommentAndLikeSection = ({ postId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const hide = location.pathname === "/profile";
+  const hide = location.pathname === "/profile" || location.pathname.startsWith("/profile/");
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
 
@@ -58,7 +58,7 @@ const CommentAndLikeSection = ({ postId }) => {
                     ) : (
                       <>
                         {" "}
-                        <span style={{ color: "orange" }}>Adored </span>{" "}
+                        <span style={{ color: "orange", fontWeight: "bold" }}>Adored </span>{" "}
                       </>
                     )}
                   </div>

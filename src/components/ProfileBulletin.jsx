@@ -1,24 +1,27 @@
 import { useState } from "react";
-import { Button, ButtonGroup, Col, Container, Dropdown, Image, Row, ToggleButton } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Button, ButtonGroup, Col, Container, Dropdown, Image, Modal, Row, ToggleButton } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { ThreeDots } from "react-bootstrap-icons";
+import { deleteBulletinPostAction } from "../redux/actions";
 
 const ProfileBulletin = () => {
   const [radioValue, setRadioValue] = useState("1");
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
   const bulletinPosts = useSelector((state) => state.bulletinPosts.bulletinPosts);
   const posts = bulletinPosts?.content || [];
   const user = useSelector((state) => state.user);
   const otherUser = useSelector((state) => state.otherUser);
-  const { id } = useParams();
-  const isViewingOwnProfile = id === String(user.id);
 
+  const isViewingOwnProfile = id === String(user.id);
   const viewedUserId = id || user.id;
   const testimonies = bulletinPosts?.content.filter((post) => post.profileOwnerId === Number(viewedUserId)) || [];
-
   const profile = !id || isViewingOwnProfile ? user : otherUser;
-  //const isOwnProfile = !id;
+
+  const [postToDelete, setPostToDelete] = useState(null);
 
   const radios = [
     {
@@ -86,11 +89,34 @@ const ProfileBulletin = () => {
                             <Dropdown.Item as="button" style={{ background: "none" }}>
                               Edit Post
                             </Dropdown.Item>
-                            <Dropdown.Item as="button" style={{ background: "none" }}>
+                            <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => setPostToDelete(post.id)}>
                               Delete Post
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
+                        <Modal centered show={postToDelete !== null} onHide={() => setPostToDelete(null)} backdrop="static" keyboard={false}>
+                          <Modal.Header style={{ backgroundColor: "#E5F5E0" }} closeButton>
+                            <Modal.Title>Delete Post?</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
+                            Are you sure you want to delete your post? Once deleted it will be gone forever. 💔
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setPostToDelete(null)}>
+                              Close
+                            </Button>
+                            <Button
+                              variant="outline-success"
+                              onClick={() => {
+                                dispatch(deleteBulletinPostAction(postToDelete))
+                                  .then(() => setPostToDelete(null))
+                                  .catch((error) => console.error("Error deleting post:", error));
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </Col>
                     ) : (
                       <div></div>

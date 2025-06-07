@@ -1,4 +1,4 @@
-import { APPEND_BULLETINPOSTS, SET_BULLETINPOSTS } from "../actions";
+import { APPEND_BULLETINPOSTS, DELETE_BULLETINPOST, SET_BULLETINPOSTS } from "../actions";
 
 const initialState = {
   bulletinPosts: {
@@ -21,6 +21,14 @@ const bulletinPostsReducer = (state = initialState, action) => {
         bulletinPosts: {
           ...action.payload,
           content: [...state.bulletinPosts.content, ...action.payload.content],
+        },
+      };
+    case DELETE_BULLETINPOST:
+      return {
+        ...state,
+        bulletinPosts: {
+          ...state.bulletinPosts,
+          content: state.bulletinPosts.content.filter((post) => post.id !== action.payload),
         },
       };
     default:

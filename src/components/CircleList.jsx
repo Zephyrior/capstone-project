@@ -76,7 +76,7 @@ const CircleList = () => {
               ))}
               {!showAll && circles.length > 6 && (
                 <div className="text-end">
-                  <Button variant="link" style={{ textDecoration: "none", color: "black" }} onClick={() => setShowAll(true)}>
+                  <Button variant="link" style={{ textDecoration: "none", color: "black" }} onClick={() => setShowAll(!showAll)}>
                     View All
                   </Button>
                 </div>

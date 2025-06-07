@@ -219,6 +219,29 @@ export const fetchCreateBulletinAction = (content, imageFile, profileOwnerId) =>
   };
 };
 
+export const DELETE_BULLETINPOST = "DELETE_BULLETINPOST";
+export const setDeleteBulletinPostAction = (postId) => ({ type: DELETE_BULLETINPOST, payload: postId });
+
+export const deleteBulletinPostAction = (postId) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await api.delete(`/posts/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setDeleteBulletinPostAction(postId));
+        console.log("Deleted post response: ", response.data);
+        return true;
+      } catch (error) {
+        console.error("Error deleting post: ", error);
+      }
+    }
+  };
+};
+
 export const SET_BULLETINCOMMENTS = "SET_BULLETINCOMMENTS";
 export const setBulletinCommentsAction = (postId, bulletinComment) => ({ type: SET_BULLETINCOMMENTS, payload: { postId, bulletinComment } });
 

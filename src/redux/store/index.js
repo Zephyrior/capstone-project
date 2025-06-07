@@ -13,6 +13,7 @@ import searchUserByIdReducer from "../reducers/searchUserByIdReducer.js";
 import toggleAdoreReducer from "../reducers/toggleAdoreReducer.js";
 import othersCircleReducer from "../reducers/othersCircleReducer.js";
 import circlesReducer from "../reducers/circlesReducer.js";
+//import deleteBulletinReducer from "../reducers/deleteBulletinReducer.js";
 
 const rootReducer = combineReducers({
   token: tokenReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   othersCircle: othersCircleReducer,
   toggleAdore: toggleAdoreReducer,
   circles: circlesReducer,
+  //  deleteBulletin: deleteBulletinReducer,
 });
 
 const store = configureStore({

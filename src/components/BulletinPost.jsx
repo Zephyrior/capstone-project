@@ -1,15 +1,22 @@
-import { Button, Col, Container, Dropdown, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Image, Modal, Row } from "react-bootstrap";
 import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
 import CommentAndLikeSection from "./CommentAndLikeSection";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { deleteBulletinPostAction } from "../redux/actions";
+import { useState } from "react";
 
 const BulletinPost = ({ post }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const hide = location.pathname === "/profile";
   const userId = useSelector((state) => state.user.id);
   const authorId = post.authorId;
   const navigate = useNavigate();
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
 
   //const goToUserProfile =
 
@@ -53,9 +60,6 @@ const BulletinPost = ({ post }) => {
             </Col>
             {userId === authorId ? (
               <Col xs={2} className="d-flex justify-content-end align-items-end flex-column-reverse">
-                {/*                     <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0">
-                      <ThreeDots />
-                    </Button> */}
                 <Dropdown>
                   <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
                     <ThreeDots />
@@ -64,11 +68,39 @@ const BulletinPost = ({ post }) => {
                     <Dropdown.Item as="button" style={{ background: "none" }}>
                       Edit Post
                     </Dropdown.Item>
-                    <Dropdown.Item as="button" style={{ background: "none" }}>
+                    <Dropdown.Item as="button" style={{ background: "none" }} onClick={handleShowDeleteModal}>
                       Delete Post
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
+
+                <Modal centered show={showDeleteModal} onHide={handleCloseDeleteModal} backdrop="static" keyboard={false}>
+                  <Modal.Header style={{ backgroundColor: "#E5F5E0" }} closeButton>
+                    <Modal.Title>Delete Post?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
+                    Are you sure you want to delete your post? Once deleted it will be gone forever. 💔
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseDeleteModal}>
+                      Close
+                    </Button>
+                    <Button
+                      variant="outline-success"
+                      onClick={() => {
+                        dispatch(deleteBulletinPostAction(post.id))
+                          .then(() => {
+                            setShowDeleteModal(false);
+                          })
+                          .catch((error) => {
+                            console.error("Error deleting post:", error);
+                          });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </Col>
             ) : (
               <div></div>
