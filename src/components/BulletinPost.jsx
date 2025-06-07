@@ -213,7 +213,7 @@ const BulletinPost = ({ post }) => {
             <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
           </Row>
           <Row>
-            <Col className="d-flex justify-content-start">
+            <Col className="d-none d-md-flex justify-content-start">
               <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
                 {post.likesCount} adores
               </Button>
@@ -222,6 +222,18 @@ const BulletinPost = ({ post }) => {
               </Button>
 
               <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                {post.comments.length} comments
+              </Button>
+            </Col>
+            <Col className="d-flex d-md-none justify-content-start">
+              <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
+                {post.likesCount} adores
+              </Button>
+              <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                •
+              </Button>
+
+              <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
                 {post.comments.length} comments
               </Button>
             </Col>

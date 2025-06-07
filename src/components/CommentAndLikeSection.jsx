@@ -45,7 +45,7 @@ const CommentAndLikeSection = ({ postId }) => {
         <hr />
         <Container fluid>
           <Row>
-            <div className="d-flex justify-content-center w-100 gap-2">
+            <div className="d-none d-md-flex justify-content-center w-100 gap-2">
               <Button variant="Light" size="sm" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={toggleAdoreButton}>
                 {likedByCurrentUser ? (
                   <div>
@@ -85,6 +85,52 @@ const CommentAndLikeSection = ({ postId }) => {
                 View Comments
               </Button>
             </div>
+            <div className="d-flex d-md-none justify-content-center w-100 gap-2">
+              <Button
+                variant="Light"
+                size="sm"
+                style={{ textDecoration: "none", color: "black", fontSize: "0.7rem" }}
+                className="flex-fill"
+                onClick={toggleAdoreButton}
+              >
+                {likedByCurrentUser ? (
+                  <div>
+                    {!hide ? (
+                      <>
+                        {" "}
+                        <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
+                        <Stars style={{ color: "orange" }} />
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        <span style={{ color: "orange", fontWeight: "bold" }}>Adored </span>{" "}
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {!hide ? (
+                      <>
+                        {" "}
+                        <Stars /> Adore <Stars />{" "}
+                      </>
+                    ) : (
+                      <> Adore </>
+                    )}
+                  </div>
+                )}
+              </Button>
+              <Button
+                variant="Light"
+                size="sm"
+                style={{ textDecoration: "none", color: "black", fontSize: "0.7rem" }}
+                className="flex-fill"
+                onClick={() => setShowComments(!showComments)}
+              >
+                View Comments
+              </Button>
+            </div>
           </Row>
           <Row>
             {showComments && (
@@ -100,7 +146,7 @@ const CommentAndLikeSection = ({ postId }) => {
                     <div key={comment.id} className="border border-1 rounded-3 my-2">
                       <Container fluid>
                         <Row className="mb-2 mt-3">
-                          <Col xs={1} className={hide ? "d-none" : ""}>
+                          <Col xs={1} className={hide ? "d-none" : "d-none d-md-block"}>
                             <Button variant="link" style={{ textDecoration: "none" }} onClick={() => navigate(`/profile/${comment.authorId}`)}>
                               <Image
                                 src={comment.authorProfilePictureUrl}
@@ -122,7 +168,10 @@ const CommentAndLikeSection = ({ postId }) => {
                             <p style={{ fontSize: "10px" }} className={`mb-0 mt-1 ${hide ? "d-none" : ""}`}>
                               {comment.createdAt ? (
                                 <>
-                                  - {comment.createdAt.split(" ")[1]} • {comment.createdAt.split(" ")[0]}
+                                  <span className="d-none d-md-block">
+                                    - {comment.createdAt.split(" ")[1]} • {comment.createdAt.split(" ")[0]}
+                                  </span>
+                                  <span className="d-block d-md-none">- {comment.createdAt.split(" ")[1]}</span>
                                 </>
                               ) : (
                                 <>- Just now</>
@@ -169,10 +218,28 @@ const CommentAndLikeSection = ({ postId }) => {
             </Col>
             <Col lg={1} className={`${!hide ? "d-none" : ""}`}></Col>
             <Col xs={12} lg={11} className="ps-1">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicTextArea">
+              <Form onSubmit={handleSubmit} className="d-none d-md-block">
+                <Form.Group className="mb-3 " controlId="formBasicTextArea">
                   <Form.Control
                     as="textarea"
+                    rows={1}
+                    placeholder="Say what you think..."
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSubmit(e);
+                      }
+                    }}
+                  />
+                </Form.Group>
+              </Form>
+              <Form onSubmit={handleSubmit} className="d-block d-md-none">
+                <Form.Group className="mb-3 " controlId="formBasicTextArea">
+                  <Form.Control
+                    as="textarea"
+                    style={{ fontSize: "0.7rem" }}
                     rows={1}
                     placeholder="Say what you think..."
                     value={comment}
