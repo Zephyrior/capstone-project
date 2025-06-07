@@ -242,6 +242,52 @@ export const deleteBulletinPostAction = (postId) => {
   };
 };
 
+export const EDIT_BULLETINPOST = "EDIT_BULLETINPOST";
+export const setEditBulletinPostAction = (bulletinPost) => ({ type: EDIT_BULLETINPOST, payload: bulletinPost });
+
+export const editBulletinPostAction = (postId, content, imageFile, profileOwnerId, currentMediaUrl) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        let mediaUrl = currentMediaUrl || null;
+
+        if (imageFile) {
+          const compressedImage = await imageCompression(imageFile, {
+            maxSizeMB: 1.5,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          });
+
+          const formData = new FormData();
+          formData.append("file", compressedImage);
+
+          const uploadResponse = await api.post("/images/uploadme", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          mediaUrl = uploadResponse.data.url;
+        }
+        const updateResponse = await api.put(
+          `/posts/${postId}`,
+          { content, mediaUrl, profileOwnerId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        dispatch(setEditBulletinPostAction(updateResponse.data));
+        console.log("Update Response: ", updateResponse.data);
+      } catch (error) {
+        console.error("Error updating post: ", error);
+      }
+    }
+  };
+};
+
 export const SET_BULLETINCOMMENTS = "SET_BULLETINCOMMENTS";
 export const setBulletinCommentsAction = (postId, bulletinComment) => ({ type: SET_BULLETINCOMMENTS, payload: { postId, bulletinComment } });
 

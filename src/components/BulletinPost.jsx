@@ -1,10 +1,10 @@
-import { Button, Col, Container, Dropdown, Image, Modal, Row } from "react-bootstrap";
-import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
+import { Button, Col, Container, Dropdown, Form, FormControl, Image, Modal, Row } from "react-bootstrap";
+import { CaretRightFill, ImageFill, ThreeDots } from "react-bootstrap-icons";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { deleteBulletinPostAction } from "../redux/actions";
-import { useState } from "react";
+import { deleteBulletinPostAction, editBulletinPostAction, fetchBulletinPostsAction } from "../redux/actions";
+import { useRef, useState } from "react";
 
 const BulletinPost = ({ post }) => {
   const location = useLocation();
@@ -17,6 +17,46 @@ const BulletinPost = ({ post }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
+
+  const [postToEdit, setPostToEdit] = useState(null);
+  const [content, setContent] = useState("");
+  const fileInputRef = useRef(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+
+  const openEditModal = () => {
+    setPostToEdit(post.id);
+    console.log("post.id :", post.id);
+    setContent(post.content);
+    setPreviewUrl(post.mediaUrl || null);
+    setImageFile(null);
+  };
+
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
+  const handleImageChange = () => {
+    setImageFile(null);
+    setPreviewUrl(null);
+    setFileInputKey(Date.now());
+  };
+
+  const handleChangeImage = () => {
+    setImageFile(null);
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await dispatch(editBulletinPostAction(postToEdit, content, imageFile));
+    dispatch(fetchBulletinPostsAction());
+    setPostToEdit(null);
+    setContent("");
+    setImageFile(null);
+    setPreviewUrl(null);
+  };
 
   //const goToUserProfile =
 
@@ -65,7 +105,7 @@ const BulletinPost = ({ post }) => {
                     <ThreeDots />
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item as="button" style={{ background: "none" }}>
+                    <Dropdown.Item as="button" style={{ background: "none" }} onClick={openEditModal}>
                       Edit Post
                     </Dropdown.Item>
                     <Dropdown.Item as="button" style={{ background: "none" }} onClick={handleShowDeleteModal}>
@@ -100,6 +140,62 @@ const BulletinPost = ({ post }) => {
                       Delete
                     </Button>
                   </Modal.Footer>
+                </Modal>
+
+                <Modal show={postToEdit !== null} onHide={() => setPostToEdit(null)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">Edit Post?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                      <Form.Group className="mb-3" controlId="formBasicTextArea">
+                        <Form.Control
+                          as="textarea"
+                          rows={2}
+                          placeholder="Share something..."
+                          value={content}
+                          onChange={(e) => setContent(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="formFile" className="mb-3">
+                        <FormControl
+                          key={fileInputKey}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          ref={fileInputRef}
+                          style={{ opacity: 0, position: "absolute", top: 0, left: 0, height: "100%", width: "100%", zIndex: -1 }}
+                        />
+                      </Form.Group>
+                      {previewUrl && (
+                        <div className="mb-3 position-relative">
+                          <Image src={previewUrl} thumbnail style={{ maxHeight: "200px", objectFit: "contain" }} />
+                          <div className="pin-icon position-absolute" style={{ top: "-20px", left: "-10px", fontSize: "2rem" }}>
+                            <Button variant="success" size="sm" className="rounded-circle" style={{ fontSize: "12px" }} onClick={handleChangeImage}>
+                              ✕
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="d-flex justify-content-end">
+                        <Button
+                          variant="outline-success"
+                          size="lg"
+                          className="border border-0 px-3 py-1 me-2"
+                          onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                          type="button"
+                        >
+                          <ImageFill />
+                        </Button>
+                        <Button variant="outline-success" type="submit" size="sm" className="me-2">
+                          Share
+                        </Button>
+                      </div>
+                    </Form>
+                  </Modal.Body>
                 </Modal>
               </Col>
             ) : (
