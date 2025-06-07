@@ -101,15 +101,22 @@ const CommentAndLikeSection = ({ postId }) => {
                       <Container fluid>
                         <Row className="mb-2 mt-3">
                           <Col xs={1} className={hide ? "d-none" : ""}>
-                            <Image
-                              src={comment.authorProfilePictureUrl}
-                              roundedCircle
-                              style={{ width: "35px", height: "35px", objectFit: "cover" }}
-                              className="p-0"
-                            />
+                            <Button variant="link" style={{ textDecoration: "none" }} onClick={() => navigate(`/profile/${comment.authorId}`)}>
+                              <Image
+                                src={comment.authorProfilePictureUrl}
+                                roundedCircle
+                                style={{ width: "35px", height: "35px", objectFit: "cover" }}
+                                className="p-0"
+                              />
+                            </Button>
                           </Col>
                           <Col xl={9} xs={{ span: 8, offset: 1 }} className="ps-0 d-flex align-items-center">
-                            <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="p-0">
+                            <Button
+                              variant="link"
+                              style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
+                              className="p-0"
+                              onClick={() => navigate(`/profile/${comment.authorId}`)}
+                            >
                               {comment.authorFullName}
                             </Button>
                             <p style={{ fontSize: "10px" }} className={`mb-0 mt-1 ${hide ? "d-none" : ""}`}>

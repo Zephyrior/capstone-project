@@ -134,7 +134,7 @@ const EditProfile = () => {
       );
       console.log("Edit profile FE: ", postResponse);
       dispatch(fetchUserAction());
-      setSuccessMessage("Profile updated successfully!");
+      setSuccessMessage("Profile updated successfully! 🎉");
       setTimeout(() => setSuccessMessage(""), 4000);
       sendEmail(email, `${firstName}  ${lastName}`);
     } catch (error) {

@@ -79,7 +79,7 @@ const BulletinPost = ({ post }) => {
                 variant="link"
                 style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
                 className="ps-0 pe-1 py-0"
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate(`/profile/${post.authorId}`)}
               >
                 {post.authorFullName}
               </Button>{" "}
@@ -95,7 +95,13 @@ const BulletinPost = ({ post }) => {
                 </Button>
               )}
               <p style={{ fontSize: "10px" }} className="mb-0">
-                {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
+                {post.createdAt ? (
+                  <>
+                    {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
+                  </>
+                ) : (
+                  <>Just now</>
+                )}
               </p>
             </Col>
             {userId === authorId ? (
