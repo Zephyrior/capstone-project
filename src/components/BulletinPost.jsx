@@ -58,8 +58,6 @@ const BulletinPost = ({ post }) => {
     setPreviewUrl(null);
   };
 
-  //const goToUserProfile =
-
   console.log("Post from bulletin post: ", post);
 
   return (
