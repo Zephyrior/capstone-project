@@ -132,7 +132,7 @@ const GeneralCircleList = () => {
                                 />
                               </Button>
                             </Col>
-                            <Col xs={7}>
+                            <Col xs={7} className="mt-2">
                               <Button
                                 variant="link"
                                 style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}
@@ -143,7 +143,7 @@ const GeneralCircleList = () => {
                               >
                                 {user.completeName}
                               </Button>
-                              <p className="text-muted fw-light">member since: {user.createdAt}</p>
+                              <p className="text-muted fw-light mb-0">member since: {user.createdAt}</p>
                             </Col>
                             {currentUser.id !== user.id ? (
                               <Col xs={3} className="d-flex align-items-center">
@@ -153,13 +153,23 @@ const GeneralCircleList = () => {
                                   </Button>
                                 )}
                                 {relationshipStatus === "Cancel Request" && (
-                                  <Button variant="outline-danger" onClick={() => handleCircleAction("Cancel Request", user, relationship)}>
+                                  <Button
+                                    variant="outline-danger"
+                                    style={{ fontSize: "0.7rem" }}
+                                    onClick={() => handleCircleAction("Cancel Request", user, relationship)}
+                                  >
                                     Cancel Request
                                   </Button>
                                 )}
                                 {relationshipStatus === "Respond to request" && (
-                                  <Button variant="outline-warning" onClick={() => handleCircleAction("Accept Request", user, relationship)}>
-                                    Respond to request
+                                  <Button
+                                    variant="outline-warning"
+                                    size="sm"
+                                    style={{ fontSize: "0.7rem" }}
+                                    className="p-2"
+                                    onClick={() => handleCircleAction("Accept Request", user, relationship)}
+                                  >
+                                    Respond request
                                   </Button>
                                 )}
                                 {relationshipStatus === "Friends" && <Button variant="outline-success">Friends</Button>}
@@ -170,26 +180,27 @@ const GeneralCircleList = () => {
                           </Row>
 
                           <Row className="d-flex d-lg-none">
-                            <Col xs={8} className="">
+                            <Col xs={8} className="px-0">
                               <Image
                                 src={user.profilePictureUrl}
                                 className="rounded-4"
-                                width={64}
-                                height={64}
+                                width={45}
+                                height={45}
                                 style={{ objectFit: "cover" }}
                                 alt={user.completeName}
                               />
 
                               <Button
                                 variant="link"
-                                style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}
-                                className="p-0 ms-3"
+                                style={{ textDecoration: "none", color: "black", fontWeight: "bold", fontSize: "0.7rem" }}
+                                className="p-0 ms-2"
                                 onClick={() => {
                                   handleClick(user.id);
                                 }}
                               >
                                 {user.completeName}
                               </Button>
+
                               {currentUser.id === user.id ? (
                                 <p className="text-muted fw-light d-none d-lg-block" style={{ fontSize: "15px" }}>
                                   member since: {user.createdAt}
@@ -199,23 +210,43 @@ const GeneralCircleList = () => {
                               )}
                             </Col>
                             {currentUser.id !== user.id ? (
-                              <Col xs={4} className="d-flex align-items-center">
+                              <Col xs={4} className="d-flex align-items-center px-0">
                                 {relationshipStatus === "Add Circle" && (
-                                  <Button variant="outline-success" onClick={() => handleCircleAction("Add Circle", user, relationship)}>
+                                  <Button
+                                    variant="outline-success"
+                                    style={{ fontSize: "0.7rem" }}
+                                    size="sm"
+                                    onClick={() => handleCircleAction("Add Circle", user, relationship)}
+                                  >
                                     Add Circle
                                   </Button>
                                 )}
                                 {relationshipStatus === "Cancel Request" && (
-                                  <Button variant="outline-danger" onClick={() => handleCircleAction("Cancel Request", user, relationship)}>
+                                  <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    style={{ fontSize: "0.7rem" }}
+                                    onClick={() => handleCircleAction("Cancel Request", user, relationship)}
+                                    className="p-1"
+                                  >
                                     Cancel Request
                                   </Button>
                                 )}
                                 {relationshipStatus === "Respond to request" && (
-                                  <Button variant="outline-warning" onClick={() => handleCircleAction("Accept Request", user, relationship)}>
-                                    Respond to request
+                                  <Button
+                                    variant="outline-warning"
+                                    size="sm"
+                                    style={{ fontSize: "0.6rem" }}
+                                    onClick={() => handleCircleAction("Accept Request", user, relationship)}
+                                  >
+                                    Respond request
                                   </Button>
                                 )}
-                                {relationshipStatus === "Friends" && <Button variant="outline-success">Friends</Button>}
+                                {relationshipStatus === "Friends" && (
+                                  <Button variant="outline-success" size="sm">
+                                    Friends
+                                  </Button>
+                                )}
                               </Col>
                             ) : (
                               <div></div>
