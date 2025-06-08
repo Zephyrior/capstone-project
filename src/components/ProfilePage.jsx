@@ -45,10 +45,12 @@ const ProfilePage = () => {
             </Col>
             <Col md={5} lg={{ span: 4, offset: 1 }} className="d-none d-md-block px-0">
               <CircleList />
+              <div className="mb-4">
+                <WidgetsPage />
+              </div>
               <Container className="mb-4">
                 <BulletinBoard />
               </Container>
-              <WidgetsPage />
               <Footer />
             </Col>
           </Row>
