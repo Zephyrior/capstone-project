@@ -149,10 +149,10 @@ const BulletinPost = ({ post }) => {
                 </Modal>
 
                 <Modal show={postToEdit !== null} onHide={() => setPostToEdit(null)} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-                  <Modal.Header closeButton>
+                  <Modal.Header style={{ backgroundColor: "#E5F5E0" }} closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">Edit Post?</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>
+                  <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3" controlId="formBasicTextArea">
                         <Form.Control

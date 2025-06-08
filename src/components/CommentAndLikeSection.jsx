@@ -49,29 +49,12 @@ const CommentAndLikeSection = ({ postId }) => {
               <Button variant="Light" size="sm" style={{ textDecoration: "none", color: "black" }} className="flex-fill" onClick={toggleAdoreButton}>
                 {likedByCurrentUser ? (
                   <div>
-                    {!hide ? (
-                      <>
-                        {" "}
-                        <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
-                        <Stars style={{ color: "orange" }} />
-                      </>
-                    ) : (
-                      <>
-                        {" "}
-                        <span style={{ color: "orange", fontWeight: "bold" }}>Adored </span>{" "}
-                      </>
-                    )}
+                    <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
+                    <Stars style={{ color: "orange" }} />
                   </div>
                 ) : (
                   <div>
-                    {!hide ? (
-                      <>
-                        {" "}
-                        <Stars /> Adore <Stars />{" "}
-                      </>
-                    ) : (
-                      <> Adore </>
-                    )}
+                    <Stars /> Adore <Stars />{" "}
                   </div>
                 )}
               </Button>
@@ -95,29 +78,12 @@ const CommentAndLikeSection = ({ postId }) => {
               >
                 {likedByCurrentUser ? (
                   <div>
-                    {!hide ? (
-                      <>
-                        {" "}
-                        <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
-                        <Stars style={{ color: "orange" }} />
-                      </>
-                    ) : (
-                      <>
-                        {" "}
-                        <span style={{ color: "orange", fontWeight: "bold" }}>Adored </span>{" "}
-                      </>
-                    )}
+                    <Stars style={{ color: "orange" }} /> <span style={{ fontWeight: "bold", color: "orange" }}>Adored</span>{" "}
+                    <Stars style={{ color: "orange" }} />
                   </div>
                 ) : (
                   <div>
-                    {!hide ? (
-                      <>
-                        {" "}
-                        <Stars /> Adore <Stars />{" "}
-                      </>
-                    ) : (
-                      <> Adore </>
-                    )}
+                    <Stars /> Adore <Stars />{" "}
                   </div>
                 )}
               </Button>
@@ -160,7 +126,15 @@ const CommentAndLikeSection = ({ postId }) => {
                             <Button
                               variant="link"
                               style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
-                              className="p-0"
+                              className="p-0 d-none d-md-block"
+                              onClick={() => navigate(`/profile/${comment.authorId}`)}
+                            >
+                              {comment.authorFullName}
+                            </Button>
+                            <Button
+                              variant="link"
+                              style={{ fontWeight: "bold", textDecoration: "none", color: "black", fontSize: "0.8rem" }}
+                              className="p-0 d-block d-md-none"
                               onClick={() => navigate(`/profile/${comment.authorId}`)}
                             >
                               {comment.authorFullName}
@@ -200,7 +174,11 @@ const CommentAndLikeSection = ({ postId }) => {
                         </Row>
                         <Row className="mt-3">
                           <Col>
-                            <p className="ms-3"> {comment.content}</p>
+                            <p className="ms-3 pt-0 d-none d-md-block"> {comment.content}</p>
+                            <p className="ms-3 pt-0 d-block d-md-none" style={{ fontSize: "0.8rem" }}>
+                              {" "}
+                              {comment.content}
+                            </p>
                           </Col>
                         </Row>
                       </Container>
@@ -223,7 +201,7 @@ const CommentAndLikeSection = ({ postId }) => {
                   <Form.Control
                     as="textarea"
                     rows={1}
-                    placeholder="Say what you think..."
+                    placeholder="What do you think? 🤔"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     onKeyDown={(e) => {
@@ -241,7 +219,7 @@ const CommentAndLikeSection = ({ postId }) => {
                     as="textarea"
                     style={{ fontSize: "0.7rem" }}
                     rows={1}
-                    placeholder="Say what you think..."
+                    placeholder="What do you think? 🤔"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     onKeyDown={(e) => {

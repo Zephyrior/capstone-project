@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Button, ButtonGroup, Col, Container, Dropdown, Image, Modal, Row, ToggleButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentAndLikeSection from "./CommentAndLikeSection";
-import { ThreeDots } from "react-bootstrap-icons";
+import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
 import { deleteBulletinPostAction } from "../redux/actions";
 
 const ProfileBulletin = () => {
   const [radioValue, setRadioValue] = useState("1");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -29,7 +30,7 @@ const ProfileBulletin = () => {
       value: "1",
     },
     {
-      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Testimonies (${testimonies.length})`,
+      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Dedications (${testimonies.length})`,
       value: "2",
     },
   ];
@@ -75,6 +76,17 @@ const ProfileBulletin = () => {
                       <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
                         {post.authorFullName}
                       </Button>
+                      {post.profileOwnerFullName && post.authorId === profile?.id && <CaretRightFill />}
+                      {post.profileOwnerFullName && post.authorId === profile?.id && (
+                        <Button
+                          variant="link"
+                          style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
+                          className="ps-2 py-0"
+                          onClick={() => navigate(`/profile/${post.profileOwnerId}`)}
+                        >
+                          {post.profileOwnerFullName}
+                        </Button>
+                      )}
                       <p style={{ fontSize: "10px" }} className="mb-0">
                         {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
                       </p>
@@ -127,7 +139,7 @@ const ProfileBulletin = () => {
                     <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
                   </Row>
                   <Row>
-                    <Col className="d-flex justify-content-start">
+                    <Col className="d-none d-md-flex justify-content-start">
                       <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
                         {post.likesCount} adores
                       </Button>
@@ -136,6 +148,18 @@ const ProfileBulletin = () => {
                       </Button>
 
                       <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                        {post.comments.length} comments
+                      </Button>
+                    </Col>
+                    <Col className="d-flex d-md-none justify-content-start">
+                      <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
+                        {post.likesCount} adores
+                      </Button>
+                      <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                        •
+                      </Button>
+
+                      <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
                         {post.comments.length} comments
                       </Button>
                     </Col>

@@ -65,8 +65,26 @@ const CreateBulletin = () => {
             </Col>
             <Col xs={12} lg={11} className="ps-1">
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicTextArea">
-                  <Form.Control as="textarea" rows={2} placeholder="Share something..." value={content} onChange={(e) => setContent(e.target.value)} required />
+                <Form.Group className="mb-3 d-none d-md-block" controlId="formBasicTextArea">
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    placeholder="Anything under the sun ☀️"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3 d-block d-md-none" controlId="formBasicTextArea">
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    placeholder="Anything under the sun ☀️"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    style={{ fontSize: "0.9rem" }}
+                    required
+                  />
                 </Form.Group>
 
                 <Form.Group controlId="formFile" className="mb-3">
