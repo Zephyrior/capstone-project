@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
 import { deleteBulletinPostAction, fetchBulletinPostsAction } from "../redux/actions";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const ProfileBulletin = () => {
   const [radioValue, setRadioValue] = useState("1");
@@ -24,6 +25,9 @@ const ProfileBulletin = () => {
 
   const [postToDelete, setPostToDelete] = useState(null);
 
+  const currentPage = bulletinPosts.number || 0;
+  const isLastPage = bulletinPosts.last || false;
+
   const radios = [
     {
       name: isViewingOwnProfile ? "Your Bulletin" : `${profile?.completeName?.split(" ")[0]}'s Bulletin`,
@@ -41,9 +45,13 @@ const ProfileBulletin = () => {
       : posts.filter((post) => post.authorId !== profile?.id && post.profileOwnerId === profile?.id);
 
   useEffect(() => {
-    dispatch(fetchBulletinPostsAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+    dispatch(fetchBulletinPostsAction(0));
+  }, [dispatch]);
+
+  const loadMorePosts = () => {
+    const nextPage = currentPage + 1;
+    dispatch(fetchBulletinPostsAction(nextPage, true));
+  };
   return (
     <>
       <Container>
@@ -67,161 +75,170 @@ const ProfileBulletin = () => {
           </ButtonGroup>
 
           {filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
-              <div key={post.id} className="border p-3 rounded shadow-sm my-3 position-relative" style={{ background: "#fff" }}>
-                <Container>
-                  <div className="pin-icon position-absolute" style={{ top: "-20px", right: "-15px", fontSize: "2rem" }}>
-                    📌
-                  </div>
-                  <Row className="mb-4">
-                    <Col xs={2} xl={1} className="ps-0">
-                      <Button
-                        className="p-0 bg-transparent border-0 d-none d-lg-block me-2"
-                        style={{
-                          width: "68px",
-                          height: "70px",
-                          borderRadius: "50%",
-                          overflow: "hidden",
-                          padding: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Image
-                          src={post.authorProfilePictureUrl}
-                          roundedCircle
-                          style={{
-                            width: "100%",
-                            display: "block",
-                            height: "100%",
-                            objectFit: "cover",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      </Button>
-                      <Button
-                        className="p-0 bg-transparent border-0 d-block d-lg-none me-2"
-                        style={{
-                          width: "48px",
-                          height: "50px",
-                          borderRadius: "50%",
-                          overflow: "hidden",
-                          padding: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Image
-                          src={post.authorProfilePictureUrl}
-                          roundedCircle
-                          style={{
-                            width: "100%",
-                            display: "block",
-                            height: "100%",
-                            objectFit: "cover",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      </Button>
-                    </Col>
-                    <Col xs={8}>
-                      <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
-                        {post.authorFullName}
-                      </Button>
-                      {post.profileOwnerFullName && post.authorId === profile?.id && <CaretRightFill />}
-                      {post.profileOwnerFullName && post.authorId === profile?.id && (
+            <InfiniteScroll
+              dataLength={filteredPosts.length}
+              next={loadMorePosts}
+              hasMore={!isLastPage}
+              loader={<p className="text-center text-muted mt-3">Loading more posts...</p>}
+              endMessage={<p className="text-center text-muted mt-3">No more posts 📭</p>}
+              style={{ overflow: "visible" }}
+            >
+              {filteredPosts.map((post) => (
+                <div key={post.id} className="border p-3 rounded shadow-sm my-3 position-relative" style={{ background: "#fff" }}>
+                  <Container>
+                    <div className="pin-icon position-absolute" style={{ top: "-20px", right: "-15px", fontSize: "2rem" }}>
+                      📌
+                    </div>
+                    <Row className="mb-4">
+                      <Col xs={2} xl={1} className="ps-0">
                         <Button
-                          variant="link"
-                          style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
-                          className="ps-2 py-0"
-                          onClick={() => navigate(`/profile/${post.profileOwnerId}`)}
+                          className="p-0 bg-transparent border-0 d-none d-lg-block me-2"
+                          style={{
+                            width: "68px",
+                            height: "70px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            padding: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
                         >
-                          {post.profileOwnerFullName}
+                          <Image
+                            src={post.authorProfilePictureUrl}
+                            roundedCircle
+                            style={{
+                              width: "100%",
+                              display: "block",
+                              height: "100%",
+                              objectFit: "cover",
+                              borderRadius: "50%",
+                            }}
+                          />
                         </Button>
-                      )}
-                      <p style={{ fontSize: "10px" }} className="mb-0">
-                        {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
-                      </p>
-                    </Col>
-                    {user.id === post.authorId ? (
-                      <Col xs={2} xl={{ span: 2, offset: 1 }} className="d-flex justify-content-end align-items-end flex-column-reverse">
-                        <Dropdown>
-                          <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
-                            <ThreeDots />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item as="button" style={{ background: "none" }}>
-                              Edit Post
-                            </Dropdown.Item>
-                            <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => setPostToDelete(post.id)}>
-                              Delete Post
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                        <Modal centered show={postToDelete !== null} onHide={() => setPostToDelete(null)} backdrop="static" keyboard={false}>
-                          <Modal.Header style={{ backgroundColor: "#E5F5E0" }} closeButton>
-                            <Modal.Title>Delete Post?</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
-                            Are you sure you want to delete your post? Once deleted it will be gone forever. 💔
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setPostToDelete(null)}>
-                              Close
-                            </Button>
-                            <Button
-                              variant="outline-success"
-                              onClick={() => {
-                                dispatch(deleteBulletinPostAction(postToDelete))
-                                  .then(() => setPostToDelete(null))
-                                  .catch((error) => console.error("Error deleting post:", error));
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
+                        <Button
+                          className="p-0 bg-transparent border-0 d-block d-lg-none me-2"
+                          style={{
+                            width: "48px",
+                            height: "50px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            padding: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Image
+                            src={post.authorProfilePictureUrl}
+                            roundedCircle
+                            style={{
+                              width: "100%",
+                              display: "block",
+                              height: "100%",
+                              objectFit: "cover",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        </Button>
                       </Col>
-                    ) : (
-                      <div></div>
-                    )}
-                  </Row>
-                  <Row className={`mb-3`}>
-                    <p>{post.content}</p>
-                    <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
-                  </Row>
-                  <Row>
-                    <Col className="d-none d-md-flex justify-content-start">
-                      <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
-                        {post.likesCount} adores
-                      </Button>
-                      <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
-                        •
-                      </Button>
+                      <Col xs={8}>
+                        <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
+                          {post.authorFullName}
+                        </Button>
+                        {post.profileOwnerFullName && post.authorId === profile?.id && <CaretRightFill />}
+                        {post.profileOwnerFullName && post.authorId === profile?.id && (
+                          <Button
+                            variant="link"
+                            style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}
+                            className="ps-2 py-0"
+                            onClick={() => navigate(`/profile/${post.profileOwnerId}`)}
+                          >
+                            {post.profileOwnerFullName}
+                          </Button>
+                        )}
+                        <p style={{ fontSize: "10px" }} className="mb-0">
+                          {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
+                        </p>
+                      </Col>
+                      {user.id === post.authorId ? (
+                        <Col xs={2} xl={{ span: 2, offset: 1 }} className="d-flex justify-content-end align-items-end flex-column-reverse">
+                          <Dropdown>
+                            <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
+                              <ThreeDots />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item as="button" style={{ background: "none" }}>
+                                Edit Post
+                              </Dropdown.Item>
+                              <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => setPostToDelete(post.id)}>
+                                Delete Post
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                          <Modal centered show={postToDelete !== null} onHide={() => setPostToDelete(null)} backdrop="static" keyboard={false}>
+                            <Modal.Header style={{ backgroundColor: "#E5F5E0" }} closeButton>
+                              <Modal.Title>Delete Post?</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
+                              Are you sure you want to delete your post? Once deleted it will be gone forever. 💔
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button variant="secondary" onClick={() => setPostToDelete(null)}>
+                                Close
+                              </Button>
+                              <Button
+                                variant="outline-success"
+                                onClick={() => {
+                                  dispatch(deleteBulletinPostAction(postToDelete))
+                                    .then(() => setPostToDelete(null))
+                                    .catch((error) => console.error("Error deleting post:", error));
+                                }}
+                              >
+                                Delete
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </Col>
+                      ) : (
+                        <div></div>
+                      )}
+                    </Row>
+                    <Row className={`mb-3`}>
+                      <p>{post.content}</p>
+                      <Image src={post.mediaUrl} style={{ maxWidth: "100%", height: "auto" }} />
+                    </Row>
+                    <Row>
+                      <Col className="d-none d-md-flex justify-content-start">
+                        <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                          {post.likesCount} adores
+                        </Button>
+                        <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                          •
+                        </Button>
 
-                      <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
-                        {post.comments.length} comments
-                      </Button>
-                    </Col>
-                    <Col className="d-flex d-md-none justify-content-start">
-                      <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
-                        {post.likesCount} adores
-                      </Button>
-                      <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
-                        •
-                      </Button>
+                        <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                          {post.comments.length} comments
+                        </Button>
+                      </Col>
+                      <Col className="d-flex d-md-none justify-content-start">
+                        <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
+                          {post.likesCount} adores
+                        </Button>
+                        <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
+                          •
+                        </Button>
 
-                      <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
-                        {post.comments.length} comments
-                      </Button>
-                    </Col>
-                  </Row>
-                </Container>
-                <CommentAndLikeSection postId={post.id} />
-              </div>
-            ))
+                        <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
+                          {post.comments.length} comments
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Container>
+                  <CommentAndLikeSection postId={post.id} />
+                </div>
+              ))}
+            </InfiniteScroll>
           ) : (
             <div className="border  rounded shadow-sm my-3 position-relative" style={{ background: "#fff" }}>
               <p className="text-center mt-3">No posts to display.</p>
