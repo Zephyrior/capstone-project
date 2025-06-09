@@ -7,25 +7,6 @@ import { fetchUserAction } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
-  /*   const token = localStorage.getItem("token");
-  const [user, setUser] = useState(null); */
-
-  /*   const fetchUser = () => {
-    if (token) {
-      api
-        .get("/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setUser(response.data);
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }; */
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
