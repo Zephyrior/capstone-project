@@ -277,7 +277,7 @@ const ProfileBulletin = () => {
         >
           {Array.isArray(selectedPostForLikes?.likes) && selectedPostForLikes.likes.length > 0 ? (
             selectedPostForLikes.likes.map((like) => (
-              <div key={like.id} className="flex items-center space-x-2">
+              <div key={like.id} className="flex items-center space-x-2 mb-2">
                 <Button variant="link" style={{ textDecoration: "none", padding: 0 }}>
                   <Image src={like.userProfilePictureUrl} alt={like.userFullName} className="rounded-4" width={50} height={50} style={{ objectFit: "cover" }} />
                 </Button>

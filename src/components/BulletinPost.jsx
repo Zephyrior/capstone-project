@@ -299,7 +299,7 @@ const BulletinPost = ({ post }) => {
           <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
             {post.likes.length > 0 ? (
               post.likes.map((like) => (
-                <div key={like.id} className="flex items-center space-x-2">
+                <div key={like.id} className="flex items-center space-x-2 mb-2">
                   <Button variant="link" style={{ textDecoration: "none" }}>
                     <Image
                       src={like.userProfilePictureUrl}
