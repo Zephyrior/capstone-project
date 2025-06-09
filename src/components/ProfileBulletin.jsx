@@ -45,8 +45,8 @@ const ProfileBulletin = () => {
       : posts.filter((post) => post.authorId !== profile?.id && post.profileOwnerId === profile?.id);
 
   useEffect(() => {
-    dispatch(fetchBulletinPostsAction(0));
-  }, [dispatch]);
+    dispatch(fetchBulletinPostsAction(0, false, viewedUserId));
+  }, [dispatch, viewedUserId]);
 
   const loadMorePosts = () => {
     const nextPage = currentPage + 1;
@@ -158,7 +158,7 @@ const ProfileBulletin = () => {
                         )}
                         <p style={{ fontSize: "10px" }} className="mb-0">
                           {post.createdAt
-                            ? new Date(post.createdAt).toLocaleString("en-GB", {
+                            ? new Date(post.createdAt).toLocaleString(undefined, {
                                 dateStyle: "medium",
                                 timeStyle: "short",
                               })
