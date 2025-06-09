@@ -34,7 +34,7 @@ const ProfileBulletin = () => {
       value: "1",
     },
     {
-      name: isViewingOwnProfile ? "Your Testimonies" : `${profile?.completeName?.split(" ")[0]}'s Dedications (${testimonies.length})`,
+      name: isViewingOwnProfile ? "Your Dedications" : `${profile?.completeName?.split(" ")[0]}'s Dedications (${testimonies.length})`,
       value: "2",
     },
   ];
@@ -73,7 +73,6 @@ const ProfileBulletin = () => {
               </ToggleButton>
             ))}
           </ButtonGroup>
-
           {filteredPosts.length > 0 ? (
             <InfiniteScroll
               dataLength={filteredPosts.length}
@@ -158,7 +157,12 @@ const ProfileBulletin = () => {
                           </Button>
                         )}
                         <p style={{ fontSize: "10px" }} className="mb-0">
-                          {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
+                          {post.createdAt
+                            ? new Date(post.createdAt).toLocaleString("en-GB", {
+                                dateStyle: "medium",
+                                timeStyle: "short",
+                              })
+                            : "Just now"}
                         </p>
                       </Col>
                       {user.id === post.authorId ? (

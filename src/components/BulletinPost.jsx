@@ -70,6 +70,7 @@ const BulletinPost = ({ post }) => {
           <Row className="mb-4 mt-2">
             <Col xs={2} xl={1} className={hide ? "d-none" : "px-0"}>
               <Button
+                onClick={() => navigate(`/profile/${post.authorId}`)}
                 className="p-0 bg-transparent border-0 d-none d-sm-block me-2"
                 style={{
                   width: "50px",
@@ -95,6 +96,7 @@ const BulletinPost = ({ post }) => {
                 />
               </Button>
               <Button
+                onClick={() => navigate(`/profile/${post.authorId}`)}
                 className="p-0 bg-transparent border-0 d-block d-sm-none me-2 mt-1"
                 style={{
                   width: "35px",
@@ -142,13 +144,12 @@ const BulletinPost = ({ post }) => {
                 </Button>
               )}
               <p style={{ fontSize: "10px" }} className="mb-0">
-                {post.createdAt ? (
-                  <>
-                    {post.createdAt.split(" ")[1]} • {post.createdAt.split(" ")[0]}
-                  </>
-                ) : (
-                  <>Just now</>
-                )}
+                {post.createdAt
+                  ? new Date(post.createdAt).toLocaleString("en-GB", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })
+                  : "Just now"}
               </p>
             </Col>
             {userId === authorId ? (
