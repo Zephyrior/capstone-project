@@ -48,7 +48,7 @@ const BulletinBoard = () => {
             ))}
           </InfiniteScroll>
         )}
-        {posts.length === 0 && isLastPage && <div className="text-center text-muted mt-5">No bulletin posts yet. Be the first to post! 📝</div>}
+        {posts.length === 0 && <div className="text-center text-muted mt-5">No bulletin posts yet. Be the first to post! 📝</div>}
       </div>
     </>
   );
