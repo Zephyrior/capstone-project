@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
-import { deleteBulletinPostAction, fetchBulletinPostsAction } from "../redux/actions";
+import { deleteBulletinPostAction, fetchBulletinPostsAction, resetBulletinPostsAction } from "../redux/actions";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const ProfileBulletin = () => {
@@ -45,8 +45,9 @@ const ProfileBulletin = () => {
       : posts.filter((post) => post.authorId !== profile?.id && post.profileOwnerId === profile?.id);
 
   useEffect(() => {
+    dispatch(resetBulletinPostsAction());
     dispatch(fetchBulletinPostsAction(0, false, viewedUserId));
-  }, [dispatch, viewedUserId]);
+  }, [dispatch, viewedUserId, id]);
 
   const loadMorePosts = () => {
     const nextPage = currentPage + 1;

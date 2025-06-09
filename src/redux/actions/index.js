@@ -157,7 +157,7 @@ export const fetchBulletinPostsAction = (page = 0, append = false) => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await api.get(`posts?page=${page}&size=10&sort=createdAt,desc`, {
+        const response = await api.get(`posts?page=${page}&size=100&sort=createdAt,desc`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Fetched bulletin posts response: ", response.data);
@@ -172,6 +172,11 @@ export const fetchBulletinPostsAction = (page = 0, append = false) => {
     }
   };
 };
+
+export const RESET_BULLETIN_POSTS = "RESET_BULLETIN_POSTS";
+export const resetBulletinPostsAction = () => ({
+  type: RESET_BULLETIN_POSTS,
+});
 
 export const SET_CREATEBULLETIN = "SET_CREATEBULLETIN";
 export const setCreateBulletinAction = (createBulletin, profileOwnerId) => ({ type: SET_CREATEBULLETIN, payload: createBulletin, profileOwnerId });

@@ -32,23 +32,31 @@ const BulletinBoard = () => {
     <>
       <div className="border border-1 rounded-3 p-3" style={{ background: "#E5F5E0", overflow: "hidden" }}>
         <h3 className="mb-4">Bulletin Board 📌</h3>
-        {isInProfile ? (
-          posts.slice(0, 5).map((post) => <BulletinPost key={post.id} post={post} />)
+        {posts.length > 0 ? (
+          <>
+            {" "}
+            {isInProfile ? (
+              posts.slice(0, 5).map((post) => <BulletinPost key={post.id} post={post} />)
+            ) : (
+              <InfiniteScroll
+                dataLength={posts.length}
+                next={loadMorePosts}
+                hasMore={!isLastPage}
+                loader={<Placeholder />}
+                endMessage={<p className="text-muted, text-center mt-5">No more posts 📭</p>}
+                style={{ overflow: "visible" }}
+              >
+                {posts.map((post) => (
+                  <BulletinPost key={post.id} post={post} />
+                ))}
+              </InfiniteScroll>
+            )}{" "}
+          </>
         ) : (
-          <InfiniteScroll
-            dataLength={posts.length}
-            next={loadMorePosts}
-            hasMore={!isLastPage}
-            loader={<Placeholder />}
-            endMessage={<p className="text-muted, text-center mt-5">No more posts 📭</p>}
-            style={{ overflow: "visible" }}
-          >
-            {posts.map((post) => (
-              <BulletinPost key={post.id} post={post} />
-            ))}
-          </InfiniteScroll>
+          <div className="border  rounded shadow-sm my-3 position-relative" style={{ background: "#fff" }}>
+            <p className="text-center mt-3">No bulletin posts yet. Be the first to post! 🤩 📝</p>
+          </div>
         )}
-        {posts.length === 0 && <div className="text-center text-muted mt-5">No bulletin posts yet. Be the first to post! 📝</div>}
       </div>
     </>
   );
