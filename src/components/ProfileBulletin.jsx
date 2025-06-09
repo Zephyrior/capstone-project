@@ -25,6 +25,10 @@ const ProfileBulletin = () => {
 
   const [postToDelete, setPostToDelete] = useState(null);
 
+  const [showLikes, setShowLikes] = useState(false);
+  const handleCloseLikes = () => setShowLikes(false);
+  const handleShowLikes = () => setShowLikes(true);
+
   const currentPage = bulletinPosts.number || 0;
   const isLastPage = bulletinPosts.last || false;
 
@@ -215,7 +219,7 @@ const ProfileBulletin = () => {
                     </Row>
                     <Row>
                       <Col className="d-none d-md-flex justify-content-start">
-                        <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0">
+                        <Button variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0" onClick={handleShowLikes}>
                           {post.likesCount} adores
                         </Button>
                         <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
@@ -227,7 +231,12 @@ const ProfileBulletin = () => {
                         </Button>
                       </Col>
                       <Col className="d-flex d-md-none justify-content-start">
-                        <Button variant="link" style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }} className="pb-0">
+                        <Button
+                          variant="link"
+                          style={{ textDecoration: "none", color: "black", fontSize: "0.8rem" }}
+                          className="pb-0"
+                          onClick={handleShowLikes}
+                        >
                           {post.likesCount} adores
                         </Button>
                         <Button disabled variant="link" style={{ textDecoration: "none", color: "black" }} className="pb-0 px-0">
@@ -240,6 +249,34 @@ const ProfileBulletin = () => {
                       </Col>
                     </Row>
                   </Container>
+                  <Modal show={showLikes} centered onHide={handleCloseLikes}>
+                    <Modal.Header className="px-3 pb-2 pt-3" style={{ backgroundColor: "#E5F5E0" }} closeButton>
+                      <h4 className="mb-0 p-0">Adores ✨</h4>
+                    </Modal.Header>
+                    <Modal.Body style={{ backgroundImage: `url("/circlebg.png")`, backgroundSize: "cover" }}>
+                      {post.likes.length > 0 ? (
+                        post.likes.map((like) => (
+                          <div key={like.id} className="flex items-center space-x-2">
+                            <Button variant="link" style={{ textDecoration: "none" }}>
+                              <Image
+                                src={like.userProfilePictureUrl}
+                                alt={like.userFullName}
+                                className="rounded-4"
+                                width={50}
+                                height={50}
+                                style={{ objectFit: "cover" }}
+                              />{" "}
+                            </Button>
+                            <Button variant="link" style={{ textDecoration: "none", color: "black" }}>
+                              <span>{like.userFullName}</span>{" "}
+                            </Button>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-sm text-gray-500 m-2">Be the first to adore 💖</p>
+                      )}
+                    </Modal.Body>
+                  </Modal>
                   <CommentAndLikeSection postId={post.id} />
                 </div>
               ))}
