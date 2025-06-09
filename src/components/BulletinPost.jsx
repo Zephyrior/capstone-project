@@ -67,12 +67,61 @@ const BulletinPost = ({ post }) => {
           <div className="pin-icon position-absolute" style={{ top: "-20px", right: "-15px", fontSize: "2rem" }}>
             📌
           </div>
-          <Row className="mb-4">
-            <Col xs={2} className={hide ? "d-none" : ""}>
-              <Image src={post.authorProfilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "70px", height: "auto", objectFit: "cover" }} />
+          <Row className="mb-4 mt-2">
+            <Col xs={2} xl={1} className={hide ? "d-none" : "px-0"}>
+              <Button
+                className="p-0 bg-transparent border-0 d-none d-sm-block me-2"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={post.authorProfilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Button>
+              <Button
+                className="p-0 bg-transparent border-0 d-block d-sm-none me-2 mt-1"
+                style={{
+                  width: "35px",
+                  height: "35px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={post.authorProfilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Button>
             </Col>
             <Col xs={1} className={!hide ? "d-none" : ""}></Col>
-            <Col xs={8} className="ps-0">
+            <Col xs={8} xl={9} className="ps-2">
               <Button
                 variant="link"
                 style={{ fontWeight: "bold", textDecoration: "none", color: "black" }}

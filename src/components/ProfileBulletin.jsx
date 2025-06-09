@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Col, Container, Dropdown, Image, Modal, Row, ToggleButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentAndLikeSection from "./CommentAndLikeSection";
 import { CaretRightFill, ThreeDots } from "react-bootstrap-icons";
-import { deleteBulletinPostAction } from "../redux/actions";
+import { deleteBulletinPostAction, fetchBulletinPostsAction } from "../redux/actions";
 
 const ProfileBulletin = () => {
   const [radioValue, setRadioValue] = useState("1");
@@ -39,6 +39,11 @@ const ProfileBulletin = () => {
     radioValue === "1"
       ? posts.filter((post) => post.authorId === profile?.id)
       : posts.filter((post) => post.authorId !== profile?.id && post.profileOwnerId === profile?.id);
+
+  useEffect(() => {
+    dispatch(fetchBulletinPostsAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   return (
     <>
       <Container>
@@ -69,10 +74,59 @@ const ProfileBulletin = () => {
                     📌
                   </div>
                   <Row className="mb-4">
-                    <Col xs={2}>
-                      <Image src={post.authorProfilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "70px", height: "auto", objectFit: "cover" }} />
+                    <Col xs={2} xl={1} className="ps-0">
+                      <Button
+                        className="p-0 bg-transparent border-0 d-none d-lg-block me-2"
+                        style={{
+                          width: "68px",
+                          height: "70px",
+                          borderRadius: "50%",
+                          overflow: "hidden",
+                          padding: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Image
+                          src={post.authorProfilePictureUrl}
+                          roundedCircle
+                          style={{
+                            width: "100%",
+                            display: "block",
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </Button>
+                      <Button
+                        className="p-0 bg-transparent border-0 d-block d-lg-none me-2"
+                        style={{
+                          width: "48px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          overflow: "hidden",
+                          padding: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Image
+                          src={post.authorProfilePictureUrl}
+                          roundedCircle
+                          style={{
+                            width: "100%",
+                            display: "block",
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </Button>
                     </Col>
-                    <Col xs={8} className="ps-0">
+                    <Col xs={8}>
                       <Button variant="link" style={{ fontWeight: "bold", textDecoration: "none", color: "black" }} className="ps-0 py-0">
                         {post.authorFullName}
                       </Button>
@@ -92,7 +146,7 @@ const ProfileBulletin = () => {
                       </p>
                     </Col>
                     {user.id === post.authorId ? (
-                      <Col xs={2} className="d-flex justify-content-end align-items-end flex-column-reverse">
+                      <Col xs={2} xl={{ span: 2, offset: 1 }} className="d-flex justify-content-end align-items-end flex-column-reverse">
                         <Dropdown>
                           <Dropdown.Toggle variant="link" style={{ textDecoration: "none", color: "black" }} className="p-0 no-caret">
                             <ThreeDots />

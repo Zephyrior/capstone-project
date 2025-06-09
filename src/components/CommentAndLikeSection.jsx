@@ -190,8 +190,32 @@ const CommentAndLikeSection = ({ postId }) => {
           </Row>
           <Row className="mt-4">
             <Col lg={1} className={`${hide ? "d-none" : "px-0 d-none d-lg-block "}`}>
-              <Button variant="link" onClick={() => navigate("/profile")} className="p-0 ms-2 me-1">
-                <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "35px", height: "auto", objectFit: "cover" }} />
+              <Button
+                variant="link"
+                onClick={() => navigate("/profile")}
+                className="p-0  me-1 mt-1"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
               </Button>
             </Col>
             <Col lg={1} className={`${!hide ? "d-none" : ""}`}></Col>

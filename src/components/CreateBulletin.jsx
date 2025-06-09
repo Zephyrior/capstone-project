@@ -59,8 +59,60 @@ const CreateBulletin = () => {
         <Container fluid>
           <Row>
             <Col lg={1} className="px-0 d-none d-lg-block">
-              <Button variant="link" onClick={() => navigate("/profile")} className="p-0 mt-2 me-1">
-                <Image src={user.profilePictureUrl} roundedCircle style={{ width: "100%", maxWidth: "50px", height: "auto", objectFit: "cover" }} />
+              <Button
+                variant="link"
+                onClick={() => navigate("/profile")}
+                className="p-0 mt-2 me-1 d-none d-xl-block"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Button>
+
+              <Button
+                variant="link"
+                onClick={() => navigate("/profile")}
+                className="p-0 mt-2 me-1 d-block d-xl-none"
+                style={{
+                  width: "35px",
+                  height: "35px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
               </Button>
             </Col>
             <Col xs={12} lg={11} className="ps-1">
