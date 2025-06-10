@@ -1,4 +1,4 @@
-import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from "react-bootstrap";
+import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ToggleSearchBar from "./ToggleSearchBar";
@@ -15,7 +15,7 @@ function NavbarGlobal() {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  const isProfilePage = location.pathname.includes("/profile");
+  const isProfilePage = location.pathname.startsWith("/profile");
   const params = useParams();
   const isVisitingOtherProfile = params.userId && params.userId !== user.id;
   const isEditProfilePage = location.pathname.includes("/editprofile");
@@ -40,6 +40,11 @@ function NavbarGlobal() {
   const toggleLogo = () => {
     setShowLogo((prev) => !prev);
   };
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     dispatch(fetchUserAction());
@@ -95,8 +100,7 @@ function NavbarGlobal() {
               />
             </Dropdown.Toggle>
 
-            <Dropdown.Toggle
-              as={Button}
+            <Button
               className="p-0 bg-transparent border-0 d-block d-sm-none"
               style={{
                 width: "40px",
@@ -108,6 +112,7 @@ function NavbarGlobal() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              onClick={handleShow}
             >
               <Image
                 src={user.profilePictureUrl}
@@ -120,9 +125,9 @@ function NavbarGlobal() {
                   borderRadius: "50%",
                 }}
               />
-            </Dropdown.Toggle>
+            </Button>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu className="d-none d-sm-block">
               {isProfilePage && !isVisitingOtherProfile && (
                 <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/home")}>
                   Home
@@ -150,6 +155,122 @@ function NavbarGlobal() {
           </Dropdown>
         )}
       </Container>
+      <Offcanvas show={show} onHide={handleClose} placement="end" className="ms-5 d-block d-sm-none">
+        <Offcanvas.Header closeButton>
+          {" "}
+          <h3 className="ms-3 mb-1">Circle</h3> <span className="text-muted">—stay closer</span>
+        </Offcanvas.Header>
+        <Offcanvas.Body style={{ background: "#E5F5E0" }} className="ms-3 mt-4 border border-1 rounded-1 d-flex flex-column h-75">
+          <div className="d-flex flex-column justify-content-between flex-grow-1">
+            <div>
+              <Button
+                className="p-0 bg-transparent border-0 ms-3"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={() => {
+                  navigate("/profile");
+                  handleClose();
+                }}
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Button>
+
+              <Button
+                variant="link"
+                className="ms-3 mt-3 mb-3"
+                style={{ textDecoration: "none", color: "black", fontWeight: "bold" }}
+                onClick={() => {
+                  navigate("/profile");
+                  handleClose();
+                }}
+              >
+                {user.completeName}
+              </Button>
+
+              <hr />
+
+              <div className="d-flex flex-column align-items-start">
+                {isProfilePage && !isVisitingOtherProfile && (
+                  <Button
+                    variant="link"
+                    className="ms-3 mt-3"
+                    style={{ textDecoration: "none", color: "black" }}
+                    onClick={() => {
+                      navigate("/home");
+                      handleClose();
+                    }}
+                  >
+                    Home
+                  </Button>
+                )}
+                {!isProfilePage && (
+                  <Button
+                    variant="link"
+                    className="ms-3 mt-3"
+                    style={{ textDecoration: "none", color: "black" }}
+                    onClick={() => {
+                      navigate("/profile");
+                      handleClose();
+                    }}
+                  >
+                    View Profile
+                  </Button>
+                )}
+                {!isEditProfilePage && (
+                  <Button
+                    variant="link"
+                    className="ms-3 mt-3"
+                    style={{ textDecoration: "none", color: "black" }}
+                    onClick={() => {
+                      navigate("/editprofile");
+                      handleClose();
+                    }}
+                  >
+                    Edit Profile
+                  </Button>
+                )}
+                {!isWidgetPage && (
+                  <Button
+                    variant="link"
+                    className="ms-3 mt-3"
+                    style={{ textDecoration: "none", color: "black" }}
+                    onClick={() => {
+                      navigate("/widgets");
+                      handleClose();
+                    }}
+                  >
+                    Your Widgets
+                  </Button>
+                )}
+              </div>
+            </div>
+            <div className="mt-5">
+              <Button variant="link" className="ms-3 mt-3" style={{ textDecoration: "none", color: "black" }} onClick={logOut}>
+                Logout
+              </Button>
+            </div>
+          </div>
+        </Offcanvas.Body>
+        <p className="text-center mt-5 text-muted">Circle @ 2025</p>
+      </Offcanvas>
     </Navbar>
   );
 }
