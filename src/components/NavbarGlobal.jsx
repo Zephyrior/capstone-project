@@ -73,34 +73,60 @@ function NavbarGlobal() {
           <ToggleSearchBar toggleLogo={toggleLogo} />
         </div>
         {token && (
-          <Dropdown align="end">
-            <Dropdown.Toggle
-              as={Button}
-              className="p-0 bg-transparent border-0 d-none d-sm-block me-2"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                padding: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                src={user.profilePictureUrl}
-                roundedCircle
+          <>
+            <Dropdown align="end">
+              <Dropdown.Toggle
+                className="p-0 bg-transparent border-0 d-none d-sm-block me-2"
                 style={{
-                  width: "100%",
-                  display: "block",
-                  height: "100%",
-                  objectFit: "cover",
+                  width: "50px",
+                  height: "50px",
                   borderRadius: "50%",
+                  overflow: "hidden",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              />
-            </Dropdown.Toggle>
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  roundedCircle
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Dropdown.Toggle>
 
+              <Dropdown.Menu>
+                {!isHomePage && (
+                  <Dropdown.Item style={{ background: "none" }} onClick={() => navigate("/home")}>
+                    Home
+                  </Dropdown.Item>
+                )}
+                {!isProfilePage && (
+                  <Dropdown.Item style={{ background: "none" }} onClick={() => navigate("/profile")}>
+                    View Profile
+                  </Dropdown.Item>
+                )}
+                {!isEditProfilePage && (
+                  <Dropdown.Item style={{ background: "none" }} onClick={() => navigate("/editprofile")}>
+                    Edit Profile
+                  </Dropdown.Item>
+                )}
+                {!isWidgetPage && (
+                  <Dropdown.Item style={{ background: "none" }} onClick={() => navigate("/widgets")} className="d-md-none">
+                    Your Widgets
+                  </Dropdown.Item>
+                )}
+                <Dropdown.Item style={{ background: "none" }} onClick={logOut}>
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <Button
               className="p-0 bg-transparent border-0 d-block d-sm-none"
               style={{
@@ -127,33 +153,7 @@ function NavbarGlobal() {
                 }}
               />
             </Button>
-
-            <Dropdown.Menu className="d-none d-sm-block">
-              {!isHomePage && (
-                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/home")}>
-                  Home
-                </Dropdown.Item>
-              )}
-              {!isProfilePage && (
-                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/profile")}>
-                  View Profile
-                </Dropdown.Item>
-              )}
-              {!isEditProfilePage && (
-                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/editprofile")}>
-                  Edit Profile
-                </Dropdown.Item>
-              )}
-              {!isWidgetPage && (
-                <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/widgets")} className="d-md-none">
-                  Your Widgets
-                </Dropdown.Item>
-              )}
-              <Dropdown.Item as="button" style={{ background: "none" }} onClick={logOut}>
-                Logout
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          </>
         )}
       </Container>
       <Offcanvas show={show} onHide={handleClose} placement="end" className="ms-5 d-block d-sm-none">
