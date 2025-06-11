@@ -1,6 +1,6 @@
 import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ToggleSearchBar from "./ToggleSearchBar";
 import { Search } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
@@ -16,10 +16,11 @@ function NavbarGlobal() {
 
   const location = useLocation();
   const isProfilePage = location.pathname.startsWith("/profile");
-  const params = useParams();
-  const isVisitingOtherProfile = params.userId && params.userId !== user.id;
+  //const params = useParams();
+  //const isVisitingOtherProfile = params.userId && params.userId !== user.id;
   const isEditProfilePage = location.pathname.includes("/editprofile");
   const isWidgetPage = location.pathname.includes("/widgets");
+  const isHomePage = location.pathname.includes("/home");
 
   const [search, setSearch] = useState("");
 
@@ -53,11 +54,11 @@ function NavbarGlobal() {
     <Navbar expand="lg" style={{ background: "#E5F5E0" }} className="px-3">
       <Container fluid>
         <Navbar.Brand onClick={() => navigate("/home")} className="d-none d-md-block" style={{ cursor: "pointer" }}>
-          Circle
+          <Image src="/Circlemini.jpg" style={{ width: "100px" }} />
         </Navbar.Brand>
         {showLogo && (
           <Navbar.Brand onClick={() => navigate("/home")} className="d-block d-md-none" style={{ cursor: "pointer" }}>
-            C
+            <Image src="/Circlemini.jpg" style={{ width: "70px" }} />
           </Navbar.Brand>
         )}
         <Form className="d-sm-flex d-none align-items-end ms-auto me-5" onSubmit={handleSubmit}>
@@ -128,7 +129,7 @@ function NavbarGlobal() {
             </Button>
 
             <Dropdown.Menu className="d-none d-sm-block">
-              {isProfilePage && !isVisitingOtherProfile && (
+              {!isHomePage && (
                 <Dropdown.Item as="button" style={{ background: "none" }} onClick={() => navigate("/home")}>
                   Home
                 </Dropdown.Item>
@@ -208,7 +209,7 @@ function NavbarGlobal() {
               <hr />
 
               <div className="d-flex flex-column align-items-start">
-                {isProfilePage && !isVisitingOtherProfile && (
+                {!isHomePage && (
                   <Button
                     variant="link"
                     className="ms-3 mt-3"
